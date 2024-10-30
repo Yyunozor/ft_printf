@@ -5,14 +5,10 @@ CFLAGS		= -Wall -Wextra -Werror
 
 # Directories
 SRC_DIR		= src
-CONV_DIR	= $(SRC_DIR)/conversions
-UTIL_DIR	= $(SRC_DIR)/utils
 OBJ_DIR		= obj
 
 # Source files
-SRC_FILES	= ft_printf.c
-CONV_FILES	= x_char.c x_str.c x_ptr.c x_int.c x_uint.c x_hex.c x_mod.c
-UTIL_FILES	= ft_itoa_base.c ft_putnbr.c ft_putchar.c ft_putstr.c
+SRC_FILES	= ft_printf.c x_char.c x_str.c x_ptr.c x_int.c x_uint.c x_hex.c x_mod.c
 
 # Bonus files
 BONUS_CONV_FILES = x_bonus.c

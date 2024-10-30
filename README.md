@@ -8,7 +8,11 @@ ft_printf_project/
 ├── libft/                      ──> Your libft folder (if authorized)
 │   ├── Makefile                ──> Makefile for libft
 │   ├── ft_*.c                  ──> Libft source files (if needed)
-│   └── libft.h                 ──> Header for libft
+│   └── libft.h                 ──> Header for libft / contains utils functions
+│   │   ├── ft_itoa_base.c      ──> Converts integers to base (hex conversions)
+│   │   ├── ft_putnbr.c         ──> Prints a number (%d, %i)
+│   │   ├── ft_putchar.c        ──> Prints a character (%c)
+│   │   └── ft_putstr.c         ──> Prints a string (%s)
 ├── src/                        ──> Main source folder
 │   ├── ft_printf.c             ──> Core ft_printf function (parsing, dispatching)
 │   ├── conversions/            ──> Folder for conversion handling files
@@ -19,11 +23,6 @@ ft_printf_project/
 │   │   ├── x_unsigned.c        ──> Handles %u
 │   │   ├── x_hex.c             ──> Handles %x and %X
 │   │   └── x_percent.c         ──> Handles %%
-│   ├── utils/                  ──> Utility functions folder
-│   │   ├── ft_itoa_base.c      ──> Converts integers to base (hex conversions)
-│   │   ├── ft_putnbr.c         ──> Prints a number (%d, %i)
-│   │   ├── ft_putchar.c        ──> Prints a character (%c)
-│   │   └── ft_putstr.c         ──> Prints a string (%s)
 │   └── ft_printf_bonus.c       ──> Bonus parsing (if applicable)
 └── tests/                      ──> Testing folder
 	├── test_ft_printf.c        ──> Main test file for ft_printf

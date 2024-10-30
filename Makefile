@@ -1,58 +1,77 @@
-# Project name and compiler settings
-NAME		= libftprintf.a 
-CC			= cc
-CFLAGS		= -Wall -Wextra -Werror
-
-# Directories
-SRC_DIR		= src
-OBJ_DIR		= obj
+# Variables
+NAME = libftprintf.a
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
+SRC_DIR = src
+OBJ_DIR = obj
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+INCLUDES = -I. -I$(LIBFT_DIR)
 
 # Source files
-SRC_FILES	= ft_printf.c x_char.c x_str.c x_ptr.c x_int.c x_uint.c x_hex.c x_mod.c
+SRC_FILES = ft_printf.c \
+			x_char.c \
+			x_str.c \
+			x_ptr.c \
+			x_int.c \
+			x_uint.c \
+			x_hex.c \
+			x_mod.c
 
 # Bonus files
-BONUS_CONV_FILES = x_bonus.c
+BONUS_FILES = x_bonus.c
 
-# Full paths
-SRCS		= $(addprefix $(SRC_DIR)/, $(SRC_FILES)) \
-			  $(addprefix $(CONV_DIR)/, $(CONV_FILES)) \
-			  $(addprefix $(UTIL_DIR)/, $(UTIL_FILES))
+# Paths for source and object files
+SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
+BONUS_SRCS = $(addprefix $(SRC_DIR)/, $(BONUS_FILES))
+OBJS = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
+BONUS_OBJS = $(addprefix $(OBJ_DIR)/, $(BONUS_FILES:.c=.o))
 
-BONUS_SRCS = $(addprefix $(CONV_DIR)/, $(BONUS_CONV_FILES))
-
-# Object files
-OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
-BONUS_OBJS = $(BONUS_SRCS:%.c=$(OBJ_DIR)/%.o)
-
-# Main rules
+# Main rule
 all: $(NAME)
 
-# Create object directory and compile
-$(NAME): $(OBJ_DIR) $(OBJS)
-	ar rcs $(NAME) $(OBJS)
+# Compile the main library
+$(NAME): $(OBJS) $(LIBFT)
+	@echo "Creating $(NAME)"
+	ar rcs $(NAME) $(OBJS) $(LIBFT_OBJS)
+	ranlib $(NAME)
 
+bonus: $(OBJS) $(BONUS_OBJS) $(LIBFT)
+	@echo "Creating $(NAME) with bonus"
+	ar rcs $(NAME) $(OBJS) $(BONUS_OBJS) $(LIBFT_OBJS)
+	ranlib $(NAME)
+
+# Compile libft
+$(LIBFT):
+	make -C $(LIBFT_DIR)
+
+# Object files
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@echo "Compiled $< to $@"
+
+# Create object directory
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
-	mkdir -p $(OBJ_DIR)/$(SRC_DIR)
-	mkdir -p $(OBJ_DIR)/$(CONV_DIR)
-	mkdir -p $(OBJ_DIR)/$(UTIL_DIR)
 
-# Compile source files
-$(OBJ_DIR)/%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+# Compile and run tests
+test: $(NAME) $(TEST_OBJ)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(TEST_BIN) $(TEST_OBJ) $(NAME)
+	./$(TEST_BIN)
 
-# Clean rules
+# Clean object files and test binary
 clean:
-	rm -rf $(OBJ_DIR)
+	rm -f $(OBJS) $(BONUS_OBJS) $(TEST_OBJ) $(TEST_BIN)
+	make -C $(LIBFT_DIR) clean
 
+# Remove all generated files, including the library
 fclean: clean
 	rm -f $(NAME)
+	make -C $(LIBFT_DIR) fclean
 
+# Rebuild everything
 re: fclean all
 
-# Bonus rule
-bonus: $(OBJ_DIR) $(OBJS) $(BONUS_OBJS)
-	ar rcs $(NAME) $(OBJS) $(BONUS_OBJS)
-
 # Phony targets
-.PHONY: all clean fclean re bonus
+.PHONY: all bonus test clean fclean re

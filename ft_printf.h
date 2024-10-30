@@ -6,7 +6,7 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:02:14 by anpayot           #+#    #+#             */
-/*   Updated: 2024/10/30 23:02:18 by anpayot          ###   ########.ch       */
+/*   Updated: 2024/10/30 23:26:56 by anpayot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define FT_PRINTF_H
 
 # include <stdarg.h>
-# include <unistd.h>
-# include <stdlib.h>
 # include "libft/libft.h"
 
 // Function prototypes

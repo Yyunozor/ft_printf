@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 21:37:21 by anpayot           #+#    #+#             */
-/*   Updated: 2024/10/30 21:40:04 by anpayot          ###   ########.ch       */
+/*   Created: 2024/10/30 23:02:14 by anpayot           #+#    #+#             */
+/*   Updated: 2024/10/30 23:02:18 by anpayot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,5 @@ int		x_mod(void);
 
 // Bonus feature prototypes
 int		x_bonus(va_list args, char specifier, int width, int precision);
-
-// Utility function prototypes
-char	*ft_itoa_base(int value, int base);
-void	ft_putnbr(int n);
-void	ft_putchar(char c);
-void	ft_putstr(char *s);
 
 #endif // FT_PRINTF_H

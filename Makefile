@@ -11,17 +11,22 @@ OBJ_DIR		= obj
 
 # Source files
 SRC_FILES	= ft_printf.c
-CONV_FILES	= handle_char.c handle_string.c handle_pointer.c \
-			  handle_integer.c handle_unsigned.c handle_hex.c handle_percent.c
+CONV_FILES	= x_char.c x_str.c x_ptr.c x_int.c x_uint.c x_hex.c x_mod.c
 UTIL_FILES	= ft_itoa_base.c ft_putnbr.c ft_putchar.c ft_putstr.c
+
+# Bonus files
+BONUS_CONV_FILES = x_bonus.c
 
 # Full paths
 SRCS		= $(addprefix $(SRC_DIR)/, $(SRC_FILES)) \
 			  $(addprefix $(CONV_DIR)/, $(CONV_FILES)) \
 			  $(addprefix $(UTIL_DIR)/, $(UTIL_FILES))
 
+BONUS_SRCS = $(addprefix $(CONV_DIR)/, $(BONUS_CONV_FILES))
+
 # Object files
 OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
+BONUS_OBJS = $(BONUS_SRCS:%.c=$(OBJ_DIR)/%.o)
 
 # Main rules
 all: $(NAME)
@@ -49,9 +54,9 @@ fclean: clean
 
 re: fclean all
 
-# Bonus rule (placeholder for future bonus implementations)
-bonus: all
+# Bonus rule
+bonus: $(OBJ_DIR) $(OBJS) $(BONUS_OBJS)
+	ar rcs $(NAME) $(OBJS) $(BONUS_OBJS)
 
 # Phony targets
 .PHONY: all clean fclean re bonus
-

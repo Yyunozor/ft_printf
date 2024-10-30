@@ -1,165 +1,161 @@
-# **Roadmap for `ft_printf` Project**
+# **Ultimate Roadmap for `ft_printf` Project**
+
+This roadmap is designed to structure your `ft_printf` project into actionable milestones, focusing on both mandatory and bonus objectives.
 
 ---
-```plaintext
-ft_printf_project/
-├── Makefile
-├── ft_printf.h                 ──> Header file with function prototypes, structs, includes
-├── libft/                      ──> Your libft folder (if authorized)
-│   ├── Makefile                ──> Makefile for libft
-│   ├── ft_*.c                  ──> Libft source files (if needed)
-│   ├── libft.h                 ──> Header for libft / contains utils function
-│   ├── somes functions         ──> Use as utils, examples below:
-│   ├── ft_itoa_base.c          ──> Converts integers to base (hex conversions)
-│   ├── ft_putnbr.c             ──> Prints a number (%d, %i)
-│   ├── ft_putchar.c            ──> Prints a character (%c)
-│   └── ft_putstr.c             ──> Prints a string (%s)
-├── src/                        ──> Main source folder
-│   ├── ft_printf.c             ──> Core ft_printf function (parsing, dispatching)
-│   ├── x_char.c                ──> Handles %c and %%
-│   ├── x_str.c                 ──> Handles %s
-│   ├── x_ptr.c                 ──> Handles %p
-│   ├── x_int.c                 ──> Handles %d and %i
-│   ├── x_uint.c                ──> Handles %u
-│   ├── x_hex.c                 ──> Handles %x and %X
-│   ├── x_mod.c                 ──> Handles %%
-│   └── x_bonus.c               ──> Bonus parsing (if applicable)
-├── obj/                        ──> .o folder
-└── tests/                      ──> Testing folder
-	├── test_ft_printf.c        ──> Main test file for ft_printf
-	└── test_cases/             ──> Organized test case files (optional)
-		├── test_mandatory.c    ──> Tests for mandatory part
-		└── test_bonus.c        ──> Tests for bonus part (if applicable)
+
 ```
-### **1. Preparation and Setup**
+ft_printf_project/
+├── Makefile                  ──> Builds the project and manages dependencies
+├── ft_printf.h               ──> Header with prototypes, includes, and macros
+├── libft/                    ──> Your libft folder (if allowed)
+│   ├── Makefile              ──> Makefile for libft
+│   ├── ft_*.c                ──> Libft source files
+│   └── libft.h               ──> Header for libft with utilities
+├── src/                      ──> Main source folder for ft_printf
+│   ├── ft_printf.c           ──> Core parsing and dispatching logic
+│   ├── conversions/          ──> Folder for individual conversion files
+│   │   ├── x_char.c          ──> Handles %c and %%
+│   │   ├── x_str.c           ──> Handles %s
+│   │   ├── x_ptr.c           ──> Handles %p
+│   │   ├── x_int.c           ──> Handles %d and %i
+│   │   ├── x_uint.c          ──> Handles %u
+│   │   ├── x_hex.c           ──> Handles %x and %X
+│   │   └── x_mod.c           ──> Handles %%
+│   └── bonus/                ──> Bonus handling files (if applicable)
+├── obj/                      ──> Directory for compiled .o files
+└── tests/                    ──> Testing folder
+    ├── test_ft_printf.c      ──> Main test file for ft_printf
+    └── test_cases/           ──> Optional structured test cases
+        ├── test_mandatory.c  ──> Tests for mandatory part
+        └── test_bonus.c      ──> Tests for bonus part (if applicable)
 
-- **Project Analysis**: Read and understand the project requirements carefully:
-	- **Mandatory Conversions**: `%c`, `%s`, `%p`, `%d`, `%i`, `%u`, `%x`, `%X`, and `%%`.
-	- **Bonus Features** (if planning to include them): Implement flags `0.# +`, field width, and precision under all conversions.
-- **Set Up Repository**: Create your Git repository as per 42 standards.
-- **Basic Directory Structure**: Organize your files for better modularity and clarity:
-	- `ft_printf.c`: Core logic for `ft_printf`.
-	- `ft_printf.h`: Header file with function prototypes and necessary includes.
-	- `conversions/`: Folder for conversion-related files.
-	- `Makefile`: Essential for compilation management.
-
----
-
-### **Milestone 1: Basic Setup and Makefile**
-
-- **Goal**: Set up the `Makefile` to handle compiling and cleaning.
-	- Ensure `all`, `clean`, `fclean`, and `re` rules are included.
-	- Compile with flags: `Wall -Wextra -Werror` to catch potential issues early.
-	- **Verify**: Run `make`, `make clean`, `make fclean`, and `make re` to confirm it compiles without issues.
-
----
-
-### **2. Core ft_printf Structure**
-
-- **Objective**: Implement the foundational structure of `ft_printf` for parsing and dispatching based on format specifiers.
-- **Steps**:
-	- **Step 1**: Define the `ft_printf` prototype and set up basic variadic handling using `va_list`, `va_start`, and `va_end`.
-	- **Step 2**: Implement a loop that iterates over the format string.
-		- For each `%` encountered, call a function to parse the next character and identify the conversion type.
-		- Implement a switch or dispatch structure to direct each conversion to its respective handler function.
-- **Verify**: Add basic test cases to ensure `ft_printf` can identify and route conversions correctly without performing actual conversions yet.
+```
 
 ---
 
-### **3. Implementing Mandatory Conversions**
+## **Phase 1: Project Setup & Understanding**
 
-### **A. Without Bonus**
+### 1.1 **Preparation**
 
-1. **Character (`%c`) and Percent (`%%`) Conversions**
-	- Implement `%c` to print a single character.
-	- Handle `%%` to print a literal `%`.
-	- **Test**: Confirm handling of both single character inputs and format strings containing `%%`.
-2. **String Conversion (`%s`)**
-	- Implement `%s` to print a C-string.
-	- Handle `NULL` strings gracefully by printing `(null)`.
-	- **Test**: Edge cases like empty strings, long strings, and `NULL`.
-3. **Integer Conversions (`%d` and `%i`)**
-	- Implement `%d` and `%i` to handle signed integers.
-	- Use helper functions for formatting and padding integers.
-	- **Test**: Positive and negative values, minimum and maximum integer limits.
-4. **Unsigned Integer Conversion (`%u`)**
-	- Implement `%u` for unsigned decimal numbers.
-	- Ensure correct handling of large values.
-	- **Test**: Border cases like `0`, `UINT_MAX`.
-5. **Hexadecimal Conversions (`%x` and `%X`)**
-	- Implement `%x` (lowercase) and `%X` (uppercase) for hexadecimal formatting.
-	- Use helper functions to convert and format hexadecimal numbers.
-	- **Test**: Various values, checking for proper lowercase and uppercase formatting.
-6. **Pointer Conversion (`%p`)**
-	- Implement `%p` for pointers, formatting them as `0x...` hexadecimal.
-	- Handle `NULL` pointers gracefully.
-	- **Test**: Valid memory addresses and `NULL`.
+- **Read and Analyze** the project requirements:
+    - **Mandatory Conversions**: `%c`, `%s`, `%p`, `%d`, `%i`, `%u`, `%x`, `%X`, `%%`.
+    - **Bonus Objectives**: Flags (`0.# +`), width, and precision.
+- **Setup Repository**: Initialize Git repository as per 42 standards.
+- **Organize Directory Structure** to accommodate modular development.
 
-### **B. With Bonus**
+### 1.2 **Makefile Setup**
+
+- Implement a `Makefile` with core rules:
+    - `all`, `clean`, `fclean`, `re`, and `bonus` if applicable.
+    - Set compilation flags `Wall -Wextra -Werror`.
+    - **Test**: Run `make`, `make clean`, `make fclean`, `make re` to validate rules.
+
+---
+
+## **Phase 2: Core Structure of `ft_printf`**
+
+### 2.1 **Implementing Core Parsing Logic**
+
+- **Objective**: Build a robust parsing system in `ft_printf.c`:
+    - Define the `ft_printf` prototype with variadic handling using `va_list`, `va_start`, `va_end`.
+    - Design a loop to traverse the format string and identify `%` specifiers.
+    - Develop a dispatch mechanism to route each specifier to appropriate handler functions.
+- **Verify**: Write simple tests to ensure that format specifiers are correctly routed without actual conversions implemented.
+
+---
+
+## **Phase 3: Implementing Mandatory Conversions**
+
+### 3.1 **Implement Conversions (Without Bonus)**
+
+1. **Character (`%c`) and Percent (`%%`)**
+    - Implement `%c` for single characters and `%%` for literal `%`.
+    - **Test**: Include basic tests for characters and `%%` literals.
+2. **String (`%s`)**
+    - Implement `%s` for strings, handling `NULL` gracefully as `(null)`.
+    - **Test**: Test cases with long, empty, and `NULL` strings.
+3. **Integers (`%d` and `%i`)**
+    - Implement `%d` and `%i` for signed integers.
+    - **Test**: Positive, negative, and edge cases (e.g., `INT_MIN`, `INT_MAX`).
+4. **Unsigned Integer (`%u`)**
+    - Implement `%u` for unsigned integers.
+    - **Test**: Cover values including `0` and `UINT_MAX`.
+5. **Hexadecimal (`%x` and `%X`)**
+    - Implement `%x` for lowercase and `%X` for uppercase hexadecimals.
+    - **Test**: Mixed cases and correct letter casing.
+6. **Pointer (`%p`)**
+    - Implement `%p` for pointers, ensuring it formats as `0x...`.
+    - **Test**: Valid pointers and `NULL`.
+
+### 3.2 **Testing for Mandatory Conversions**
+
+- Write unit tests to cover each conversion comprehensively.
+- **Automate Testing**: Create a script to compare `ft_printf` output to standard `printf`.
+
+---
+
+## **Phase 4: Adding Bonus Functionality (Optional)**
+
+### 4.1 **Implementing Field Width, Precision, and Flags**
 
 1. **Field Width and Precision**
-	- Implement width and precision fields by parsing the format specifier.
-	- Ensure that strings are truncated to precision and padded to width.
-	- **Test**: Cases with combined width and precision for each data type.
-2. **Flags ``, `0`, `#`, `+`, and Space**
-	- Implement flags to adjust alignment, zero-padding, alternative form, and signs.
-	- Ensure that these flags work together in various combinations.
-	- **Test**: Combined cases such as `%-10.5d`, `%#x`, `%+d`, `% d`, and `%010x`.
+    - Implement parsing for field width and precision modifiers.
+    - Ensure precision truncates strings and pads integers as specified.
+2. **Flags (`0.# +` and Space)**
+    - Implement flag handling with compatibility checks (e.g., `%-10.5d`, `%#x`, `%+d`).
+    - **Test**: Combined cases of flags with width and precision.
+
+### 4.2 **Re-structuring for Modularity**
+
+- Modularize conversions by moving logic into individual files in `conversions/`:
+    - Each file (e.g., `x_char.c`) handles a specific conversion.
+    - Bonus handling in separate files in `bonus/`.
+
+### 4.3 **Testing Bonus Features**
+
+- **Expanded Testing**: Create comprehensive tests to cover flag, width, and precision combinations.
+- **Memory Check**: Use `valgrind` to confirm no memory leaks or issues.
 
 ---
 
-### **4. Modularizing Code and Optimizing Memory Handling**
+## **Phase 5: Code Quality and Optimization**
 
-- **Objective**: Modularize the `ft_printf` code by creating a separate function for each conversion type, with well-defined responsibilities.
-- **Steps**:
-	- Move each conversion logic into its own function (e.g., `handle_char`, `handle_string`, `handle_int`).
-	- Use helper functions to handle padding, sign management, and prefixing for hexadecimals.
-	- Ensure each function manages its own memory allocations and deallocations where necessary.
-- **Verify**: Check memory usage with tools like `valgrind` to ensure no memory leaks or unnecessary allocations.
+### 5.1 **Code Review and Norm Compliance**
 
----
+- **Norminette**: Run Norminette on all files to ensure compliance.
+- **Documentation**: Add comments for complex functions, detailing parameters and logic.
+- **Function Optimization**: Refactor repetitive code into helper functions as needed.
 
-### **5. Testing and Debugging**
+### 5.2 **Final Testing and Validation**
 
-- **Write a Test Suite**: Create a dedicated test file (`test_ft_printf.c`) with categorized test cases covering:
-	- All specifiers, edge cases (large numbers, negatives, special characters).
-	- Combined cases for width, precision, and flags (if doing bonus).
-- **Automate Tests**: Use a script to compare `ft_printf` output against `printf` output.
-- **Debugging**: Fix issues with edge cases, memory handling, and format specifier parsing.
+- Ensure tests cover all edge cases:
+    - Boundary values for integers and hexadecimals.
+    - Combined flags, width, and precision.
+- Re-run `valgrind` checks for memory leaks.
 
----
+### 5.3 **Submission and Peer Review**
 
-### **6. Final Steps**
-
-### **A. Without Bonus**
-
-1. **Norm Compliance**: Run Norminette on all files and ensure full compliance.
-2. **Documentation**: Add comments to functions for readability, focusing on parameter descriptions and logic explanations.
-3. **Final Verification**: Re-run all tests, verify against the project requirements, and confirm memory management with `valgrind`.
-
-### **B. With Bonus**
-
-1. **Separate Bonus Files**: Move bonus functions into `_bonus.c` files as required.
-2. **Makefile Bonus Rule**: Add a `bonus` rule to compile the bonus files.
-3. **Comprehensive Testing**: Ensure the tests include all bonus combinations.
-4. **Submit and Review**: Push to Git, double-check all files and paths, and verify naming.
+- **Git Repository Check**: Confirm all files are correctly named and committed.
+- **Final Manual Review**: Double-check compliance with project requirements.
 
 ---
 
-### **Summary**
+## **Roadmap Summary**
 
-### **Without Bonus (Basic Roadmap)**
+### **Without Bonus**
 
-1. **Milestone 1**: Basic Setup and Makefile
-2. **Milestone 2**: Core Structure of `ft_printf`
-3. **Milestone 3**: Implement Mandatory Conversions
-4. **Milestone 4**: Testing, Debugging, and Norm Compliance
+1. **Phase 1**: Setup and Makefile
+2. **Phase 2**: Core Parsing and Dispatching Logic
+3. **Phase 3**: Implement Mandatory Conversions
+4. **Phase 5**: Code Quality, Testing, and Norm Compliance
 
-### **With Bonus (Extended Roadmap)**
+### **With Bonus**
 
-1. **Milestone 1**: Core Setup with Bonus Planning
-2. **Milestone 2**: Full Implementation of Mandatory and Bonus Features
-3. **Milestone 3**: Advanced Testing and Debugging
-4. **Milestone 4**: Norm Compliance, Bonus File Setup, and Final Review
+1. **Phase 1**: Initial Setup with Bonus Planning
+2. **Phase 2-4**: Full Implementation of Core and Bonus Features
+3. **Phase 5**: Advanced Testing, Debugging, and Final Review
 
 ---
+
+This refined roadmap breaks down the project into focused, manageable steps, with an emphasis on testing, code quality, and modularity to guide you to a successful `ft_printf`. Good luck!

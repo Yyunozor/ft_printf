@@ -1,32 +1,24 @@
 # Variables
-NAME		= libftprintf.a
-CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror
-SRC_DIR		= src
-OBJ_DIR		= obj
-LIBFT_DIR	= libft
-LIBFT		= $(LIBFT_DIR)/libft.a
-INCLUDES	= -I. -I$(LIBFT_DIR)
+NAME        = libftprintf.a
+CC          = gcc
+CFLAGS      = -Wall -Wextra -Werror
+SRC_DIR     = src
+OBJ_DIR     = obj
+LIBFT_DIR   = libft
+LIBFT       = $(LIBFT_DIR)/libft.a
+INCLUDES    = -I. -I$(LIBFT_DIR)
 
 # Source files
-SRC_FILES	= ft_printf.c \
-			  x_char.c \
-			  x_str.c \
-			  x_ptr.c \
-			  x_int.c \
-			  x_uint.c \
-			  x_hex.c \
-			  x_mod.c
+SRC_FILES   = $(wildcard $(SRC_DIR)/*.c)
+CONV_FILES  = $(wildcard $(SRC_DIR)/conversions/*.c)
+SRCS        = $(SRC_FILES) $(CONV_FILES)
 
-# Bonus files
-BONUS_FILES	= x_bonus.c
+# Object files
+OBJS        = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
+OBJS       += $(patsubst $(SRC_DIR)/conversions/%.c,$(OBJ_DIR)/conversions/%.o,$(CONV_FILES))
 
-# Paths for source and object files
-SRCS		= $(addprefix $(SRC_DIR)/, $(SRC_FILES))
-OBJS		= $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
-
-# Define LIBFT_OBJS by finding all object files in libft's obj directory
-LIBFT_OBJS = $(wildcard $(LIBFT_DIR)/*.o)
+# Libft object files
+LIBFT_OBJS  = $(wildcard $(LIBFT_DIR)/*.o)
 
 # Main rule
 all: $(NAME)
@@ -34,41 +26,38 @@ all: $(NAME)
 # Compile the main library
 $(NAME): $(OBJS) $(LIBFT)
 	@echo "Creating $(NAME)"
-	@ar rcs $(NAME) $(OBJS) $(LIBFT_OBJS) >/dev/null 2>&1
-	@ranlib $(NAME) >/dev/null 2>&1
-
-# Bonus target
-bonus: $(OBJS) $(BONUS_OBJS) $(LIBFT)
-	@echo "Creating $(NAME) with bonus"
-	@ar rcs $(NAME) $(OBJS) $(BONUS_OBJS) $(LIBFT_OBJS) >/dev/null 2>&1
-	@ranlib $(NAME) >/dev/null 2>&1
+	@ar rcs $(NAME) $(OBJS) $(LIBFT_OBJS)
+	@echo "$(NAME) has been created."
 
 # Compile libft
 $(LIBFT):
-	make -C $(LIBFT_DIR)
+	$(MAKE) -C $(LIBFT_DIR)
 
-# Object files
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	@mkdir -p $(OBJ_DIR)
+# Object file compilation rules
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-	@echo "Compiled $< to $@"
+	@echo "Compiled $< into $@"
 
-# Create object directory
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+$(OBJ_DIR)/conversions/%.o: $(SRC_DIR)/conversions/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@echo "Compiled $< into $@"
 
-# Clean object files and test binary
+# Clean object files
 clean:
-	rm -f $(OBJS) $(BONUS_OBJS)
-	make -C $(LIBFT_DIR) clean
+	rm -f $(OBJS)
+	$(MAKE) -C $(LIBFT_DIR) clean
+	@echo "Object files have been removed."
 
 # Remove all generated files, including the library
 fclean: clean
 	rm -f $(NAME)
-	make -C $(LIBFT_DIR) fclean
+	$(MAKE) -C $(LIBFT_DIR) fclean
+	@echo "$(NAME) has been removed."
 
 # Rebuild everything
 re: fclean all
 
 # Phony targets
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re

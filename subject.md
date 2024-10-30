@@ -69,8 +69,6 @@ Create a library that includes `ft_printf()`, a function mimicking the original
 ### **Prototype**
 
 ```c
-c
-Copy code
 int ft_printf(const char *, ...);
 
 ```

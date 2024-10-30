@@ -1,101 +1,121 @@
-  ft_printf
-Because ft_putnbr() and ft_putstr() aren’t enough
-Summary:
-The goal of this project is pretty straightforward. You will recode printf().
-You will mainly learn about using a variable number of arguments. How cool is that?? It is actually pretty cool :)
-Version: 10
+# **Subject_ft_printf**
 
- Contents
-I Introduction 2
-II Common Instructions 3
-III Mandatory part 5
-IV Bonus part 7
-V Submission and peer-evaluation 8
-1
+> Because ft_putnbr() and ft_putstr() aren’t enough.
+> 
 
- Chapter I Introduction
-You will discover a popular and versatile C function: printf(). This exercise is a great opportunity to improve your programming skills. It is of moderate difficulty.
-You will discover variadic functions in C.
-The key to a successful ft_printf is a well-structured and extensible code.
-  Once this assignment passed, you will be allowed to add your
-ft_printf() to your libft so you can use it in your school C
-projects.
-2
+---
 
- Chapter II
-Common Instructions
-• Your project must be written in C.
-• Your project must be written in accordance with the Norm. If you have bonus files/functions, they are included in the norm check and you will receive a 0 if there is a norm error inside.
-• Your functions should not quit unexpectedly (segmentation fault, bus error, double free, etc) apart from undefined behaviors. If this happens, your project will be considered non functional and will receive a 0 during the evaluation.
-• All heap allocated memory space must be properly freed when necessary. No leaks will be tolerated.
-• If the subject requires it, you must submit a Makefile which will compile your source files to the required output with the flags -Wall, -Wextra and -Werror, use cc, and your Makefile must not relink.
-• Your Makefile must at least contain the rules $(NAME), all, clean, fclean and re.
-• To turn in bonuses to your project, you must include a rule bonus to your Makefile, which will add all the various headers, librairies or functions that are forbidden on the main part of the project. Bonuses must be in a different file _bonus.{c/h} if the subject does not specify anything else. Mandatory and bonus part evaluation is done separately.
-• If your project allows you to use your libft, you must copy its sources and its associated Makefile in a libft folder with its associated Makefile. Your project’s Makefile must compile the library by using its Makefile, then compile the project.
-• We encourage you to create test programs for your project even though this work won’t have to be submitted and won’t be graded. It will give you a chance to easily test your work and your peers’ work. You will find those tests especially useful during your defence. Indeed, during defence, you are free to use your tests and/or the tests of the peer you are evaluating.
-• Submit your work to your assigned git repository. Only the work in the git reposi- tory will be graded. If Deepthought is assigned to grade your work, it will be done
-3
+### **Summary**
 
- ft_printf Because ft_putnbr() and ft_putstr() aren’t enough
- after your peer-evaluations. If an error happens in any section of your work during Deepthought’s grading, the evaluation will stop.
-4
+The goal of this project is simple but impactful: **recreate the `printf()` function**. Through this project, you’ll explore the use of **variadic functions** in C, which allows functions to accept a variable number of arguments. This is a powerful feature, and learning it will significantly expand your C programming skills.
 
- Chapter III Mandatory part
- Program name Turn in files Makefile
-Libft authorized
-libftprintf.a
-Makefile, *.h, */*.h, *.c, */*.c
-NAME, all, clean, fclean, re
-Yes
-     External functs.
- malloc, free, write,
-va_start, va_arg, va_copy, va_end
-    Description
- Write a library that contains ft_printf(), a
-function that will mimic the original printf()
- You have to recode the printf() function from libc. The prototype of ft_printf() is:
- int    ft_printf(const char *, ...);
-Here are the requirements:
-• Don’t implement the buffer management of the original printf().
-• Your function has to handle the following conversions: cspdiuxX%
-• Your function will be compared against the original printf().
-• You must use the command ar to create your library.
-Using the libtool command is forbidden.
-• Your libftprintf.a has to be created at the root of your repository.
-5
+**Version**: 10
 
- ft_printf Because ft_putnbr() and ft_putstr() aren’t enough You have to implement the following conversions:
-• %c Prints a single character.
-• %s Prints a string (as defined by the common C convention).
-• %p The void * pointer argument has to be printed in hexadecimal format. • %d Prints a decimal (base 10) number.
-• %i Prints an integer in base 10.
-• %u Prints an unsigned decimal (base 10) number.
-• %x Prints a number in hexadecimal (base 16) lowercase format.
-• %X Prints a number in hexadecimal (base 16) uppercase format.
-• %% Prints a percent sign.
- 6
+---
 
- Chapter IV Bonus part
-You don’t have to do all the bonuses. Bonus list:
-• Manage any combination of the following flags: ’-0.’ and the field minimum width under all conversions.
-• Manage all the following flags: ’# +’ (Yes, one of them is a space)
-  If you plan to complete the bonus part, think about the
-implementation of your extra features from the start.  This way,
-you will avoid the pitfalls of a naive approach.
- The bonus part will only be assessed if the mandatory part is
-PERFECT. Perfect means the mandatory part has been integrally done
-and works without malfunctioning.  If you have not passed ALL the
-mandatory requirements, your bonus part will not be evaluated at all.
- 7
+## **Contents**
 
- Chapter V
-Submission and peer-evaluation
-Turn in your assignment in your Git repository as usual. Only the work inside your repos- itory will be evaluated during the defense. Don’t hesitate to double check the names of your files to ensure they are correct.
-Once this assignment passed, you will be allowed to add your ft_printf() to your libft so you can use it in your school C projects.
- ++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>.>---.++++++++++++.++.+++
-+++.--.<<++.>>------.------------.+++++++++++++.<<.>>++++++.------------
-.-------.  +++++++++++++++++++.<<.>>----------------.+++++.+++++++++.---
-----------.--.+ ++++++++++++++++.--------.+++++++++++++.<<.>>----------
--------------.+++.+++ ++++.---.----.+++++++++++++++++.---------------
---.-.<<.>>+++++.+++++.<<.>-------...
- 8
+- **I. Introduction**
+- **II. Common Instructions**
+- **III. Mandatory Part**
+- **IV. Bonus Part**
+- **V. Submission and Peer Evaluation**
+
+---
+
+## **Chapter I: Introduction**
+
+In this project, you’ll implement one of the most popular and versatile C functions: `printf()`. This exercise provides an excellent opportunity to sharpen your programming abilities. It has a **moderate difficulty** level.
+
+Through this project, you’ll:
+
+- Learn about **variadic functions** in C.
+- Focus on building **well-structured and extensible code** for maximum functionality.
+
+Upon completion, you can incorporate your `ft_printf()` function into your `libft` library, making it reusable for future school projects.
+
+---
+
+## **Chapter II: Common Instructions**
+
+- **Language**: Your project must be written in **C**.
+- **Norm Compliance**: Your code must adhere to the **Norm**. Any errors, including in bonus files, will result in a score of zero.
+- **Error Handling**: Functions must not crash (segmentation faults, bus errors, etc.). Any such errors during evaluation will result in a zero score.
+- **Memory Management**: All **heap-allocated memory** must be freed appropriately. **No memory leaks** are allowed.
+- **Makefile Requirements**:
+    - Must compile your source files with flags `Wall`, `Wextra`, and `Werror`.
+    - Should contain the rules: `$(NAME)`, `all`, `clean`, `fclean`, and `re`.
+    - Bonuses must be managed in separate files (`_bonus.c/h`) if not otherwise specified and compiled with a `bonus` rule in the Makefile.
+- **Library Requirement**: If you’re allowed to use `libft`, copy its source files and Makefile into a `libft` folder.
+- **Testing**: While not required for submission, creating test programs is highly recommended to verify your code’s functionality. These tests will be beneficial during your defense.
+- **Git Submission**: Submit your code via your assigned Git repository. Only the code in the Git repository will be evaluated.
+
+---
+
+## **Chapter III: Mandatory Part**
+
+- **Program Name**: `libftprintf.a`
+- **Required Files**: `Makefile`, `.h`, `.c`
+- **Required Makefile Rules**: `NAME`, `all`, `clean`, `fclean`, `re`
+- **Authorized Functions**:
+    - `malloc`, `free`, `write`
+    - `va_start`, `va_arg`, `va_copy`, `va_end` (for handling variadic arguments)
+- **Libft Integration**: **Yes**, you can use your `libft` library.
+
+### **Objective**
+
+Create a library that includes `ft_printf()`, a function mimicking the original `printf()`.
+
+### **Prototype**
+
+```c
+c
+Copy code
+int ft_printf(const char *, ...);
+
+```
+
+### **Requirements**
+
+- Do not implement **buffer management** like the original `printf`.
+- Support the following **conversions**:
+    - `%c`: Prints a single character.
+    - `%s`: Prints a string.
+    - `%p`: Prints a pointer in hexadecimal format.
+    - `%d` and `%i`: Print a decimal (base 10) integer.
+    - `%u`: Prints an unsigned decimal (base 10) number.
+    - `%x` and `%X`: Print a hexadecimal number in lowercase and uppercase.
+    - `%%`: Prints a literal `%` sign.
+- Use **`ar`** to create your library (using `libtool` is prohibited).
+- The `libftprintf.a` file should be located at the root of your repository.
+
+---
+
+## **Chapter IV: Bonus Part**
+
+While you are not required to implement the bonuses, here’s what they entail if you choose to take on the challenge:
+
+### **Bonus Features**
+
+- **Flags**: Handle any combination of these flags: `'-'`, `'0'`, `'.'`, and **field minimum width** for all conversions.
+- **Additional Flags**: Manage `'#'`, `' '`, and `'+'`.
+
+> Note: It’s highly recommended to plan for these bonuses from the beginning to ensure a smooth integration. A “naive” approach may lead to difficulties if you add them later.
+> 
+
+### **Evaluation Criteria**
+
+The bonus part will only be assessed if the **mandatory part is perfect**. This means:
+
+- All mandatory requirements are fully implemented.
+- The program operates without any issues.
+
+---
+
+## **Chapter V: Submission and Peer Evaluation**
+
+Submit your project in your Git repository as usual. Only the work within your repository will be graded. Double-check file names and other requirements before submission.
+
+Once you pass this project, you’re allowed to add `ft_printf()` to your `libft`, making it reusable in other school projects.
+
+---

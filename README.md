@@ -1,161 +1,150 @@
-# **Ultimate Roadmap for `ft_printf` Project**
+# `ft_printf` **Roadmap**
 
-This roadmap is designed to structure your `ft_printf` project into actionable milestones, focusing on both mandatory and bonus objectives.
+This roadmap for the `ft_printf` project integrates advanced structuring, modularity, and an extensive focus on testing and error handling. This approach guarantees smooth mandatory and bonus implementation while complying strictly with the 42 Norm.
 
 ---
 
+## **Directory Structure**
+
 ```
+plaintext
+Copy code
 ft_printf_project/
-├── Makefile                  ──> Builds the project and manages dependencies
-├── ft_printf.h               ──> Header with prototypes, includes, and macros
-├── libft/                    ──> Your libft folder (if allowed)
-│   ├── Makefile              ──> Makefile for libft
-│   ├── ft_*.c                ──> Libft source files
-│   └── libft.h               ──> Header for libft with utilities
+├── Makefile                  ──> Builds project, manages dependencies, bonus rules
+├── ft_printf.h               ──> Header with prototypes, includes, macros, and typedefs
+├── libft/                    ──> Libft functions (if allowed, copied here)
+│   ├── Makefile              ──> Makefile specific for libft
+│   ├── ft_*.c                ──> Libft functions
+│   └── libft.h               ──> Header for libft
 ├── src/                      ──> Main source folder for ft_printf
-│   ├── ft_printf.c           ──> Core parsing and dispatching logic
-│   ├── conversions/          ──> Folder for individual conversion files
-│   │   ├── x_char.c          ──> Handles %c and %%
-│   │   ├── x_str.c           ──> Handles %s
-│   │   ├── x_ptr.c           ──> Handles %p
-│   │   ├── x_int.c           ──> Handles %d and %i
-│   │   ├── x_uint.c          ──> Handles %u
-│   │   ├── x_hex.c           ──> Handles %x and %X
-│   │   └── x_mod.c           ──> Handles %%
-│   └── bonus/                ──> Bonus handling files (if applicable)
+│   ├── ft_printf.c           ──> Core formatting and dispatching logic
+│   ├── conversions/          ──> Files handling individual conversions
+│   │   ├── x_char.c          ──> %c, %%
+│   │   ├── x_str.c           ──> %s, NULL handling
+│   │   ├── x_ptr.c           ──> %p
+│   │   ├── x_int.c           ──> %d, %i
+│   │   ├── x_uint.c          ──> %u
+│   │   ├── x_hex.c           ──> %x, %X
+│   │   └── x_mod.c           ──> %%
+│   └── bonus/                ──> Folder for bonus functionality: flags, width, precision
 ├── obj/                      ──> Directory for compiled .o files
 └── tests/                    ──> Testing folder
     ├── test_ft_printf.c      ──> Main test file for ft_printf
-    └── test_cases/           ──> Optional structured test cases
-        ├── test_mandatory.c  ──> Tests for mandatory part
-        └── test_bonus.c      ──> Tests for bonus part (if applicable)
+    └── test_cases/           ──> Structured test cases
+        ├── test_mandatory.c  ──> Mandatory conversion tests
+        └── test_bonus.c      ──> Bonus feature tests
 
 ```
 
 ---
 
-## **Phase 1: Project Setup & Understanding**
+## **Phase-by-Phase Guide**
 
-### 1.1 **Preparation**
+### **Phase 1: Setup and Planning**
 
-- **Read and Analyze** the project requirements:
-    - **Mandatory Conversions**: `%c`, `%s`, `%p`, `%d`, `%i`, `%u`, `%x`, `%X`, `%%`.
-    - **Bonus Objectives**: Flags (`0.# +`), width, and precision.
-- **Setup Repository**: Initialize Git repository as per 42 standards.
-- **Organize Directory Structure** to accommodate modular development.
-
-### 1.2 **Makefile Setup**
-
-- Implement a `Makefile` with core rules:
-    - `all`, `clean`, `fclean`, `re`, and `bonus` if applicable.
-    - Set compilation flags `Wall -Wextra -Werror`.
-    - **Test**: Run `make`, `make clean`, `make fclean`, `make re` to validate rules.
+1. **Read & Analyze Requirements**:
+    - Break down **mandatory** conversions: `%c`, `%s`, `%p`, `%d`, `%i`, `%u`, `%x`, `%X`, `%%`.
+    - Understand **bonus objectives**: flags (`0`, `+`, `#`), width, and precision.
+2. **Repository & Directory Structure**:
+    - Create a **Git repository** following 42 standards.
+    - **Structure directories** based on modularity to facilitate bonus extensions later.
+3. **Makefile Creation**:
+    - Implement **rules**: `all`, `clean`, `fclean`, `re`, and `bonus`.
+    - Add flags: `Wall -Wextra -Werror`.
+    - **Test Makefile** thoroughly to confirm each rule works as expected.
 
 ---
 
-## **Phase 2: Core Structure of `ft_printf`**
+### **Phase 2: Core Parsing Logic**
 
-### 2.1 **Implementing Core Parsing Logic**
-
-- **Objective**: Build a robust parsing system in `ft_printf.c`:
-    - Define the `ft_printf` prototype with variadic handling using `va_list`, `va_start`, `va_end`.
-    - Design a loop to traverse the format string and identify `%` specifiers.
-    - Develop a dispatch mechanism to route each specifier to appropriate handler functions.
-- **Verify**: Write simple tests to ensure that format specifiers are correctly routed without actual conversions implemented.
+1. **Implement ft_printf Parsing**:
+    - In `ft_printf.c`, define **variadic handling** with `va_list`, `va_start`, `va_end`.
+    - Build a **dispatcher** to route each format specifier to corresponding conversion handlers.
+    - Use a **loop** to scan the format string, detect `%` symbols, and call the right handler.
+2. **Basic Tests for Parsing**:
+    - Write tests to ensure correct identification and routing of specifiers **without** conversion handling.
+    - Verify that `%` triggers handler functions correctly.
 
 ---
 
-## **Phase 3: Implementing Mandatory Conversions**
+### **Phase 3: Mandatory Conversions**
 
-### 3.1 **Implement Conversions (Without Bonus)**
+### 3.1 **Conversion Implementations**
 
-1. **Character (`%c`) and Percent (`%%`)**
-    - Implement `%c` for single characters and `%%` for literal `%`.
-    - **Test**: Include basic tests for characters and `%%` literals.
-2. **String (`%s`)**
-    - Implement `%s` for strings, handling `NULL` gracefully as `(null)`.
-    - **Test**: Test cases with long, empty, and `NULL` strings.
-3. **Integers (`%d` and `%i`)**
-    - Implement `%d` and `%i` for signed integers.
-    - **Test**: Positive, negative, and edge cases (e.g., `INT_MIN`, `INT_MAX`).
-4. **Unsigned Integer (`%u`)**
-    - Implement `%u` for unsigned integers.
-    - **Test**: Cover values including `0` and `UINT_MAX`.
-5. **Hexadecimal (`%x` and `%X`)**
-    - Implement `%x` for lowercase and `%X` for uppercase hexadecimals.
-    - **Test**: Mixed cases and correct letter casing.
-6. **Pointer (`%p`)**
-    - Implement `%p` for pointers, ensuring it formats as `0x...`.
-    - **Test**: Valid pointers and `NULL`.
+- Each conversion should be handled in dedicated files within `src/conversions/` for modularity:
+1. **Character (%c) and Percent (%%)**:
+    - Implement in `x_char.c`.
+    - Handle `%c` for single characters and `%%` for literal `%`.
+2. **String (%s)**:
+    - Implement in `x_str.c`.
+    - Ensure **graceful handling** of `NULL` strings as `(null)`.
+3. **Integers (%d and %i)**:
+    - Implement in `x_int.c`.
+    - **Test edge cases**: `INT_MIN`, `INT_MAX`.
+4. **Unsigned Integer (%u)**:
+    - Implement in `x_uint.c`.
+    - Cover values such as `0` and `UINT_MAX`.
+5. **Hexadecimal (%x and %X)**:
+    - Implement in `x_hex.c`.
+    - Include checks for **lowercase and uppercase** formats.
+6. **Pointer (%p)**:
+    - Implement in `x_ptr.c`.
+    - Ensure proper formatting as `0x...` with `NULL` checks.
 
 ### 3.2 **Testing for Mandatory Conversions**
 
-- Write unit tests to cover each conversion comprehensively.
-- **Automate Testing**: Create a script to compare `ft_printf` output to standard `printf`.
+- Write **unit tests** covering edge cases and typical scenarios for each conversion.
+- **Comparison Script**: Build a script that compares `ft_printf` output against standard `printf`.
 
 ---
 
-## **Phase 4: Adding Bonus Functionality (Optional)**
+### **Phase 4: Bonus Features Implementation**
 
-### 4.1 **Implementing Field Width, Precision, and Flags**
+### 4.1 **Field Width, Precision, and Flags**
 
-1. **Field Width and Precision**
-    - Implement parsing for field width and precision modifiers.
-    - Ensure precision truncates strings and pads integers as specified.
-2. **Flags (`0.# +` and Space)**
-    - Implement flag handling with compatibility checks (e.g., `%-10.5d`, `%#x`, `%+d`).
-    - **Test**: Combined cases of flags with width and precision.
+1. **Field Width and Precision**:
+    - Parse width and precision modifiers in the **format string**.
+    - Use precision to **truncate strings** or **pad numbers** based on specified values.
+2. **Flags** (`0`, `#`, `+`, and space):
+    - Implement flag handling with **compatibility checks** (e.g., `%-10.5d`, `%#x`, `%+d`).
+    - Write **test cases** combining flags, width, and precision.
 
-### 4.2 **Re-structuring for Modularity**
+### 4.2 **Modular Restructuring for Bonus**
 
-- Modularize conversions by moving logic into individual files in `conversions/`:
-    - Each file (e.g., `x_char.c`) handles a specific conversion.
-    - Bonus handling in separate files in `bonus/`.
-
-### 4.3 **Testing Bonus Features**
-
-- **Expanded Testing**: Create comprehensive tests to cover flag, width, and precision combinations.
-- **Memory Check**: Use `valgrind` to confirm no memory leaks or issues.
+- Relocate bonus handling into `src/bonus/`.
+- Reorganize the Makefile to ensure **separate compilation** for bonus features.
 
 ---
 
-## **Phase 5: Code Quality and Optimization**
+### **Phase 5: Testing, Optimization, and Norm Compliance**
 
-### 5.1 **Code Review and Norm Compliance**
-
-- **Norminette**: Run Norminette on all files to ensure compliance.
-- **Documentation**: Add comments for complex functions, detailing parameters and logic.
-- **Function Optimization**: Refactor repetitive code into helper functions as needed.
-
-### 5.2 **Final Testing and Validation**
-
-- Ensure tests cover all edge cases:
-    - Boundary values for integers and hexadecimals.
-    - Combined flags, width, and precision.
-- Re-run `valgrind` checks for memory leaks.
-
-### 5.3 **Submission and Peer Review**
-
-- **Git Repository Check**: Confirm all files are correctly named and committed.
-- **Final Manual Review**: Double-check compliance with project requirements.
+1. **Comprehensive Testing**:
+    - Expand tests to cover complex combinations of flags, width, and precision.
+    - **Valgrind** testing to detect memory leaks and errors.
+2. **Code Review and Optimization**:
+    - Ensure each function adheres to the **42 Norm**:
+        - Functions under 25 lines.
+        - Avoid unnecessary global variables.
+    - Refactor common code into **helper functions**.
+3. **Documentation and Commenting**:
+    - Comment complex logic, explaining **parameters and expected behavior**.
+4. **Final Validation**:
+    - **Final tests** to ensure compliance with both mandatory and bonus requirements.
+    - Double-check **Git repository** for proper organization, commits, and submission readiness.
 
 ---
 
-## **Roadmap Summary**
+## **Summary of Steps**
 
 ### **Without Bonus**
 
-1. **Phase 1**: Setup and Makefile
-2. **Phase 2**: Core Parsing and Dispatching Logic
-3. **Phase 3**: Implement Mandatory Conversions
-4. **Phase 5**: Code Quality, Testing, and Norm Compliance
+1. **Phase 1**: Initial setup and Makefile.
+2. **Phase 2**: Parsing and dispatcher setup.
+3. **Phase 3**: Implement mandatory conversions.
+4. **Phase 5**: Testing, code quality, and compliance.
 
 ### **With Bonus**
 
-1. **Phase 1**: Initial Setup with Bonus Planning
-2. **Phase 2-4**: Full Implementation of Core and Bonus Features
-3. **Phase 5**: Advanced Testing, Debugging, and Final Review
-
----
-
-This refined roadmap breaks down the project into focused, manageable steps, with an emphasis on testing, code quality, and modularity to guide you to a successful `ft_printf`. Good luck!
+1. **Phase 1**: Initial setup, planning for bonus.
+2. **Phases 2-4**: Core implementation and bonus integration.
+3. **Phase 5**: Expanded testing, debugging, and review.

@@ -7,6 +7,7 @@ OBJ_DIR     = obj
 LIBFT_DIR   = libft
 LIBFT       = $(LIBFT_DIR)/libft.a
 INCLUDES    = -I. -I$(LIBFT_DIR)
+MAKE        = /Applications/Xcode.app/Contents/Developer/usr/bin/make  # Keep your MAKE variable
 
 # Source files
 SRC_FILES   = $(wildcard $(SRC_DIR)/*.c)
@@ -21,27 +22,43 @@ OBJS       += $(patsubst $(SRC_DIR)/conversions/%.c,$(OBJ_DIR)/conversions/%.o,$
 LIBFT_OBJS  = $(wildcard $(LIBFT_DIR)/*.o)
 
 # Main rule
-all: $(NAME)
+all: $(LIBFT) $(NAME)
 
 # Compile the main library
-$(NAME): $(OBJS) $(LIBFT)
+$(NAME): $(OBJS)
 	@echo "Creating $(NAME)"
 	@ar rcs $(NAME) $(OBJS) $(LIBFT_OBJS)
 	@echo "$(NAME) has been created."
 
-# Compile libft
+# Compile libft without showing the full path
 $(LIBFT):
-	$(MAKE) -C $(LIBFT_DIR)
+	@$(MAKE) -C $(LIBFT_DIR)
+
+libf1:
+	@$(MAKE) -C $(LIBFT_DIR)
 
 # Object file compilation rules
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-	@echo "Compiled $< into $@"
+	@start_time=$$(date +%s); \
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@; \
+	end_time=$$(date +%s); \
+	printf "\033[1;30m%-20s\033[0m\t\033[1;37m%-30s\033[0m\t✔️\n" "Compiling:" "$<"; \
+	printf "\033[1;37m%-20s\033[0m\t\033[1;37m%-30s\033[0m\t\033[1;30m[.o]\033[0m\n" "➜ Output:" "$@"; \
+	echo "\033[1;37m─────────────────────────────────────────────────────────────\033[0m"
 
 $(OBJ_DIR)/conversions/%.o: $(SRC_DIR)/conversions/%.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@start_time=$$(date +%s); \
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@; \
+	end_time=$$(date +%s); \
+	printf "\033[1;30m%-20s\033[0m\t\033[1;37m%-30s\033[0m\t✔️\n" "Compiling:" "$<"; \
+	printf "\033[1;37m%-20s\033[0m\t\033[1;37m%-30s\033[0m\t\033[1;30m[.o]\033[0m\n" "➜ Output:" "$@"; \
+	echo "\033[1;37m─────────────────────────────────────────────────────────────\033[0m"
+
+$(OBJ_DIR)/conversions/%.o: $(SRC_DIR)/conversions/%.c
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 	@echo "Compiled $< into $@"
 
 # Clean object files

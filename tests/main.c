@@ -1,115 +1,122 @@
 #include "../ft_printf.h"
 #include <stdio.h>
+#include <stdarg.h>
 #include <limits.h>
-#include <float.h>
 
-void test_char(void)
+void compare_output(const char *description, const char *format, ...)
 {
-    printf("\n=== Character Tests ===\n");
-    printf("Expected: %c\n", 'A');
-    ft_printf("Got:      %c\n", 'A');
-    printf("Expected: %c %c %c\n", 'A', 'B', 'C');
-    ft_printf("Got:      %c %c %c\n", 'A', 'B', 'C');
+    va_list args;
+    int orig_len, ft_len;
+
+    printf("\n📝 Test: %-30s", description);
+    
+    // Run printf
+    printf("\n   🌐 Standard printf  : ");
+    va_start(args, format);
+    orig_len = vprintf(format, args);
+    va_end(args);
+    
+    // Run ft_printf
+    printf("   ➡️  ft_printf         : ");
+    va_start(args, format);
+    ft_len = ft_printf(format, args);
+    va_end(args);
+
+    // Display Result
+    if (orig_len == ft_len)
+        printf("\n   ✅ Length Match! [%d chars]\n", ft_len);
+    else
+        printf("\n   ❌ Mismatch! printf=%d, ft_printf=%d\n", orig_len, ft_len);
+
+    printf("───────────────────────────────────────────────────────────────────\n");
 }
 
-void test_string(void)
+void run_tests()
 {
-    printf("\n=== String Tests ===\n");
-    printf("Expected: %s\n", "Hello, 42!");
-    ft_printf("Got:      %s\n", "Hello, 42!");
-    printf("Expected: %s\n", "");
-    ft_printf("Got:      %s\n", "");
-    printf("Expected: %s\n", (char *)NULL);
-    ft_printf("Got:      %s\n", (char *)NULL);
-}
+    printf("\n\n========= 🧪 ft_printf Comprehensive Test Suite 🧪 =========\n");
 
-void test_pointer(void)
-{
+    // Character Tests
+    printf("\n\n🔤 Character Tests\n───────────────────────────────────────────────────────");
+    compare_output("Single Character", "%c", 'A');
+    compare_output("Multiple Characters", "%c %c %c", 'A', 'B', 'C');
+    compare_output("Padded Character", "%10c", 'Z');
+    compare_output("Left-aligned Character", "%-10c", 'Z');
+
+    // String Tests
+    printf("\n\n💬 String Tests\n───────────────────────────────────────────────────────");
+    compare_output("Simple String", "%s", "Hello, 42!");
+    compare_output("Empty String", "%s", "");
+    compare_output("NULL String", "%s", (char *)NULL);
+    compare_output("Right Aligned String", "%20s", "Aligned right");
+    compare_output("Left Aligned String", "%-20s", "Aligned left");
+    compare_output("String Precision", "%.5s", "Precision");
+
+    // Integer Tests
+    printf("\n\n🔢 Integer Tests\n───────────────────────────────────────────────────────");
+    compare_output("Positive Integer", "%d", 42);
+    compare_output("Negative Integer", "%d", -42);
+    compare_output("Positive with Sign", "%+d", 42);
+    compare_output("Negative with Sign", "%+d", -42);
+    compare_output("Padded Integer", "%10d", 42);
+    compare_output("Left-aligned Integer", "%-10d", -42);
+    compare_output("Zero-padded Integer", "%010d", 42);
+    compare_output("Precision Integer", "%.5d", 42);
+    compare_output("INT_MAX", "%d", INT_MAX);
+    compare_output("INT_MIN", "%d", INT_MIN);
+
+    // Pointer Tests
+    printf("\n\n🔗 Pointer Tests\n───────────────────────────────────────────────────────");
     int num = 42;
-    void *ptr = &num;
-    void *null_ptr = NULL;
+    compare_output("Valid Pointer", "%p", &num);
+    compare_output("NULL Pointer", "%p", NULL);
 
-    printf("\n=== Pointer Tests ===\n");
-    printf("Expected: %p\n", ptr);
-    ft_printf("Got:      %p\n", ptr);
-    printf("Expected: %p\n", null_ptr);
-    ft_printf("Got:      %p\n", null_ptr);
-}
+    // Unsigned Integer Tests
+    printf("\n\n📈 Unsigned Integer Tests\n───────────────────────────────────────────────────────");
+    compare_output("Zero Unsigned", "%u", 0);
+    compare_output("UINT_MAX Unsigned", "%u", UINT_MAX);
+    compare_output("Padded Unsigned", "%10u", 12345);
+    compare_output("Left-aligned Unsigned", "%-10u", 12345);
+    compare_output("Zero-padded Unsigned", "%010u", 12345);
 
-void test_integer(void)
-{
-    printf("\n=== Integer Tests ===\n");
-    printf("Expected: %d\n", 42);
-    ft_printf("Got:      %d\n", 42);
-    printf("Expected: %d\n", -42);
-    ft_printf("Got:      %d\n", -42);
-    printf("Expected: %d\n", INT_MAX);
-    ft_printf("Got:      %d\n", INT_MAX);
-    printf("Expected: %d\n", INT_MIN);
-    ft_printf("Got:      %d\n", INT_MIN);
-}
+    // Hexadecimal Tests
+    printf("\n\n🔡 Hexadecimal Tests\n───────────────────────────────────────────────────────");
+    compare_output("Lowercase Hex", "%x", 255);
+    compare_output("Uppercase Hex", "%X", 255);
+    compare_output("Prefixed Hex", "%#x", 255);
+    compare_output("Prefixed Hex Zero", "%#x", 0);
+    compare_output("Prefixed Uppercase Hex", "%#X", 255);
+    compare_output("Hex with Padding", "%10x", 255);
+    compare_output("Hex with Zero Padding", "%010x", 255);
+    compare_output("Hex Precision", "%.5x", 255);
+    compare_output("Hex Max Unsigned", "%x", UINT_MAX);
 
-void test_unsigned(void)
-{
-    printf("\n=== Unsigned Integer Tests ===\n");
-    printf("Expected: %u\n", 0);
-    ft_printf("Got:      %u\n", 0);
-    printf("Expected: %u\n", UINT_MAX);
-    ft_printf("Got:      %u\n", UINT_MAX);
-}
+    // Percent Tests
+    printf("\n\n💯 Percent Tests\n───────────────────────────────────────────────────────");
+    compare_output("Literal Percent", "%%");
+    compare_output("Percent with Padding", "%10%");
+    compare_output("Left-aligned Percent", "%-10%");
 
-void test_hexadecimal(void)
-{
-    printf("\n=== Hexadecimal Tests ===\n");
-    printf("Expected: %x\n", 255);
-    ft_printf("Got:      %x\n", 255);
-    printf("Expected: %x\n", 0);
-    ft_printf("Got:      %x\n", 0);
-    printf("Expected: %X\n", 255);
-    ft_printf("Got:      %X\n", 255);
-}
+    // Mixed Format Tests
+    printf("\n\n🔀 Mixed Format Tests\n───────────────────────────────────────────────────────");
+    char *str = "mixed";
+    compare_output("Mixed types", "%d %s %p %x %%", 42, str, &num, 42);
+    compare_output("Complex mixed", "%-10d %10s %20p %#x %%", -42, str, &num, 42);
 
-void test_mixed_formats(void)
-{
-    printf("\n=== Mixed Format Tests ===\n");
-    int num = 42;
-    char *str = "Hello, mixed!";
-    void *ptr = &num;
+    // Bonus Flags Tests
+    printf("\n\n🎁 Bonus Flags Tests\n───────────────────────────────────────────────────────");
+    compare_output("Width and Precision on Integer", "%10.5d", 42);
+    compare_output("Alternate Form (#)", "%#x %#X", 42, 42);
+    compare_output("Space and Sign", "% d %+d", 42, -42);
+    compare_output("String with Precision", "%10.5s", "precision");
+    compare_output("Left-aligned Precision", "%-10.5s", "precision");
+    compare_output("Combined flags and Width", "%0+10.5d", 123);
+    compare_output("Combined flags - and #", "%-#10x", 123);
 
-    printf("Expected: %d %s %p %x %%\n", num, str, ptr, num);
-    ft_printf("Got:      %d %s %p %x %%\n", num, str, ptr, num);
-}
-
-void test_bonus_flags(void)
-{
-    printf("\n=== Bonus Flags Tests (if implemented) ===\n");
-    // Width and precision on integers
-    printf("Expected: %10d\n", 42);
-    ft_printf("Got:      %10d\n", 42);
-    // Flag #
-    printf("Expected: %#x %#X\n", 42, 42);
-    ft_printf("Got:      %#x %#X\n", 42, 42);
-    // Flag +
-    printf("Expected: %+d %+d\n", 42, -42);
-    ft_printf("Got:      %+d %+d\n", 42, -42);
-    // Flag space
-    printf("Expected: % d % d\n", 42, -42);
-    ft_printf("Got:      % d % d\n", 42, -42);
+    printf("\n========= 🧪 All Tests Completed 🧪 =========\n\n");
 }
 
 int main(void)
 {
-    printf("Running ft_printf tests...\n");
-
-    test_char();
-    test_string();
-    test_pointer();
-    test_integer();
-    test_unsigned();
-    test_hexadecimal();
-    test_mixed_formats();
-    test_bonus_flags();
-
-    printf("\nAll tests completed.\n");
+    run_tests();
     return 0;
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 22:28:28 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/04 22:30:58 by anpayot          ###   ########.ch       */
+/*   Created: 2024/11/04 23:22:46 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 00:01:41 by anpayot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct s_printf
 	va_list	ap;
 	int		len;
 	t_flags	flags;
+	int		width;
+	int		precision;
 }	t_printf;
 
 // Function prototypes
@@ -41,8 +43,9 @@ void	x_str(t_printf *p);
 void	x_ptr(t_printf *p);
 void	x_int(t_printf *p);
 void	x_uint(t_printf *p);
-void	x_hex(t_printf *p, char specifier);
+void	x_hex(t_printf *p, char c);
 void	x_mod(t_printf *p);
 void	ft_conversion(t_printf *p, char specifier);
+void	parse_format(t_printf *p, const char **format);
 
 #endif // FT_PRINTF_H

@@ -68,5 +68,11 @@ fclean: clean
 # Rebuild everything
 re: fclean all
 
+# Compile and run the main test file
+main: all
+	$(CC) $(CFLAGS) $(INCLUDES) -o main tests/main.c $(NAME) $(LIBFT)
+	@echo "Running main tests..."
+	./main
+
 # Phony targets
-.PHONY: all clean fclean re libft
+.PHONY: all clean fclean re main

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 22:04:15 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/04 22:04:15 by anpayot          ###   ########.ch       */
+/*   Created: 2024/11/04 22:28:28 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/04 22:30:58 by anpayot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,20 @@
 # include <stdlib.h>
 # include "libft/libft.h"
 
+typedef struct s_flags
+{
+	int		minus;
+	int		zero;
+	int		plus;
+	int		space;
+	int		hash;
+}	t_flags;
+
 typedef struct s_printf
 {
 	va_list	ap;
 	int		len;
+	t_flags	flags;
 }	t_printf;
 
 // Function prototypes

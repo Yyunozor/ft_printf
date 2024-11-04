@@ -5,16 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 21:10:03 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/04 21:31:05 by anpayot          ###   ########.ch       */
+/*   Created: 2024/11/04 22:31:59 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/04 22:31:59 by anpayot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int ft_printf(const char *format, ...)
+int	ft_printf(const char *format, ...)
 {
-	t_printf p;
+	t_printf	p;
+
 	ft_bzero(&p, sizeof(t_printf));
 	va_start(p.ap, format);
 	while (*format)
@@ -23,7 +24,7 @@ int ft_printf(const char *format, ...)
 		{
 			format++;
 			if (*format == '\0')
-				break;
+				break ;
 			if (ft_strchr("cspdiuxX%", *format))
 				ft_conversion(&p, *format);
 			else

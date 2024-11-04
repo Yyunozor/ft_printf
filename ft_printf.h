@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 23:02:14 by anpayot           #+#    #+#             */
-/*   Updated: 2024/10/30 23:26:56 by anpayot          ###   ########.ch       */
+/*   Created: 2024/11/04 22:04:15 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/04 22:04:15 by anpayot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,25 @@
 # define FT_PRINTF_H
 
 # include <stdarg.h>
+# include <unistd.h>
+# include <stdlib.h>
 # include "libft/libft.h"
+
+typedef struct s_printf
+{
+	va_list	ap;
+	int		len;
+}	t_printf;
 
 // Function prototypes
 int		ft_printf(const char *format, ...);
-int		x_char(va_list args);
-int		x_str(va_list args);
-int		x_ptr(va_list args);
-int		x_int(va_list args);
-int		x_uint(va_list args);
-int		x_hex(va_list args, char specifier);
-int		x_mod(void);
-
-// Bonus feature prototypes
-int		x_bonus(va_list args, char specifier, int width, int precision);
+void	x_char(t_printf *p);
+void	x_str(t_printf *p);
+void	x_ptr(t_printf *p);
+void	x_int(t_printf *p);
+void	x_uint(t_printf *p);
+void	x_hex(t_printf *p, char specifier);
+void	x_mod(t_printf *p);
+void	ft_conversion(t_printf *p, char specifier);
 
 #endif // FT_PRINTF_H

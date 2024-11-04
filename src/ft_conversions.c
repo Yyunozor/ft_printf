@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   x_hex.c                                            :+:      :+:    :+:   */
+/*   ft_conversions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 22:04:23 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/04 22:04:23 by anpayot          ###   ########.ch       */
+/*   Created: 2024/11/04 21:16:37 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/04 22:04:45 by anpayot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void x_hex(t_printf *p, char c)
+void	ft_conversion(t_printf *p, char c)
 {
-	unsigned int num;
-	char *str;
-
-	num = va_arg(p->ap, unsigned int);
-	if (c == 'x')
-		str = ft_itoa_base(num, "0123456789abcdef");
-	else
-		str = ft_itoa_base(num, "0123456789ABCDEF");
-	p->len += write(1, str, ft_strlen(str));
-	free(str);
+	if (c == 'c')
+		x_char(p);
+	else if (c == 's')
+		x_str(p);
+	else if (c == 'p')
+		x_ptr(p);
+	else if (c == 'd' || c == 'i')
+		x_int(p);
+	else if (c == 'u')
+		x_uint(p);
+	else if (c == 'x' || c == 'X')
+		x_hex(p, c);
+	else if (c == '%')
+		x_mod(p);
 }

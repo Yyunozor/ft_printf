@@ -5,8 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 23:10:04 by anpayot           #+#    #+#             */
-/*   Updated: 2024/10/30 23:10:12 by anpayot          ###   ########.ch       */
+/*   Created: 2024/11/04 21:17:01 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/04 21:17:01 by anpayot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf.h"
+
+void	x_char(t_printf *p)
+{
+	char	c;
+
+	c = va_arg(p->ap, int);
+	p->len += write(1, &c, 1);
+}

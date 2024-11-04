@@ -7,7 +7,7 @@ OBJ_DIR     = obj
 LIBFT_DIR   = libft
 LIBFT       = $(LIBFT_DIR)/libft.a
 INCLUDES    = -I. -I$(LIBFT_DIR)
-MAKE        = /Applications/Xcode.app/Contents/Developer/usr/bin/make
+MAKE        = /Applications/Xcode.app/Contents/Developer/usr/bin/make  # Keep your MAKE variable
 
 # Source files
 SRC_FILES   = $(wildcard $(SRC_DIR)/*.c)
@@ -30,44 +30,43 @@ $(NAME): $(OBJS)
 	@ar rcs $(NAME) $(OBJS) $(LIBFT_OBJS)
 	@echo "$(NAME) has been created."
 
-# Compile libft
+# Compile libft without showing the full path
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
-# Object file compilation rules with fancy output
+# Object file compilation rules
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
 	@start_time=$$(date +%s); \
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@; \
 	end_time=$$(date +%s); \
-	printf "\033[1;30m%-20s\033[0m\t\033[1;37m%-30s\033[0m\t✔️\n" "Compiling:" "$<"; \
-	printf "\033[1;37m%-20s\033[0m\t\033[1;37m%-30s\033[0m\t\033[1;30m[.o]\033[0m\n" "➜ Output:" "$@"; \
-	echo "\033[1;37m─────────────────────────────────────────────────────────────\033[0m"
+	printf "\033[1;30m%-20s\033[0m\t\033[1;37m%-40s\033[0m\t✔️\t|\n" "Compiling:" "$<"; \
+	printf "\033[1;37m%-20s\033[0m\t\033[1;37m%-40s\033[0m\t\033[1;30m[.o]\033[0m\t|\n" "➜ Output:" "$@"; \
+	echo "\033[1;37m─────────────────────────────────────────────────────────────────────────|\033[0m"
 
 $(OBJ_DIR)/conversions/%.o: $(SRC_DIR)/conversions/%.c
 	@mkdir -p $(@D)
 	@start_time=$$(date +%s); \
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@; \
 	end_time=$$(date +%s); \
-	printf "\033[1;30m%-20s\033[0m\t\033[1;37m%-30s\033[0m\t✔️\n" "Compiling:" "$<"; \
-	printf "\033[1;37m%-20s\033[0m\t\033[1;37m%-30s\033[0m\t\033[1;30m[.o]\033[0m\n" "➜ Output:" "$@"; \
-	echo "\033[1;37m─────────────────────────────────────────────────────────────\033[0m"
+	printf "\033[1;30m%-20s\033[0m\t\033[1;37m%-40s\033[0m\t✔️\t|\n" "Compiling:" "$<"; \
+	printf "\033[1;37m%-20s\033[0m\t\033[1;37m%-40s\033[0m\t\033[1;30m[.o]\033[0m\t|\n" "➜ Output:" "$@"; \
+	echo "\033[1;37m─────────────────────────────────────────────────────────────────────────|\033[0m"
 
-# Clean object files and directories
+# Clean object files
 clean:
-	@rm -f $(OBJS)
-	@rm -rf $(OBJ_DIR)
-	@$(MAKE) -C $(LIBFT_DIR) clean
-	@echo "Object files and $(OBJ_DIR) directory have been removed."
+	rm -f $(OBJS)
+	$(MAKE) -C $(LIBFT_DIR) clean
+	@echo "Object files have been removed."
 
 # Remove all generated files, including the library
 fclean: clean
-	@rm -f $(NAME)
-	@$(MAKE) -C $(LIBFT_DIR) fclean
+	rm -f $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
 	@echo "$(NAME) has been removed."
 
 # Rebuild everything
 re: fclean all
 
 # Phony targets
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libft

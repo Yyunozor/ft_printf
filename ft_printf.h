@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 23:22:46 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 00:01:41 by anpayot          ###   ########.ch       */
+/*   Created: 2024/11/05 14:44:03 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 14:45:03 by anpayot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdint.h>
 # include "libft/libft.h"
 
 typedef struct s_flags

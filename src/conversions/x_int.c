@@ -1,23 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   x_int.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/05 16:30:08 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 16:30:34 by anpayot          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
-
-static void write_prefix(t_printf *p, const char *prefix)
-{
-	p->len += write(1, prefix, ft_strlen(prefix));
-}
-
-static void write_number(t_printf *p, const char *str)
-{
-	p->len += write(1, str, ft_strlen(str));
-}
-
-static void write_padding(t_printf *p, int len)
-{
-	while (len < p->width)
-	{
-		p->len += write(1, p->flags.zero ? "0" : " ", 1);
-		len++;
-	}
-}
 
 void x_int(t_printf *p)
 {
@@ -35,15 +28,17 @@ void x_int(t_printf *p)
 	len = ft_strlen(str) + ft_strlen(prefix);
 	if (p->flags.minus)
 	{
-		write_prefix(p, prefix);
-		write_number(p, str);
-		write_padding(p, len);
+		x_prefix(p, prefix);
+		x_precision(p, ft_strlen(str));
+		x_number(p, str);
+		x_padding(p, len, ' ');
 	}
 	else
 	{
-		write_padding(p, len);
-		write_prefix(p, prefix);
-		write_number(p, str);
+		x_padding(p, len, p->flags.zero ? '0' : ' ');
+		x_prefix(p, prefix);
+		x_precision(p, ft_strlen(str));
+		x_number(p, str);
 	}
 	free(str);
 }

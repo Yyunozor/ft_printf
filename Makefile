@@ -12,11 +12,15 @@ MAKE        = /Applications/Xcode.app/Contents/Developer/usr/bin/make  # Keep yo
 # Source files
 SRC_FILES   = $(wildcard $(SRC_DIR)/*.c)
 CONV_FILES  = $(wildcard $(SRC_DIR)/conversions/*.c)
-SRCS        = $(SRC_FILES) $(CONV_FILES)
+BONUS_FILES = $(wildcard $(SRC_DIR)/bonus/*.c)
+MAIN_SRCS   = $(SRC_FILES) $(CONV_FILES)
+ALL_SRCS    = $(MAIN_SRCS) $(BONUS_FILES)
 
 # Object files
-OBJS        = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
-OBJS       += $(patsubst $(SRC_DIR)/conversions/%.c,$(OBJ_DIR)/conversions/%.o,$(CONV_FILES))
+MAIN_OBJS   = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
+MAIN_OBJS  += $(patsubst $(SRC_DIR)/conversions/%.c,$(OBJ_DIR)/conversions/%.o,$(CONV_FILES))
+BONUS_OBJS  = $(patsubst $(SRC_DIR)/bonus/%.c,$(OBJ_DIR)/bonus/%.o,$(BONUS_FILES))
+ALL_OBJS    = $(MAIN_OBJS) $(BONUS_OBJS)
 
 # Libft object files
 LIBFT_OBJS  = $(wildcard $(LIBFT_DIR)/*.o)
@@ -24,11 +28,19 @@ LIBFT_OBJS  = $(wildcard $(LIBFT_DIR)/*.o)
 # Main rule
 all: $(LIBFT) $(NAME)
 
+bonus: $(LIBFT) $(NAME)_bonus
+
 # Compile the main library
-$(NAME): $(OBJS)
+$(NAME): $(MAIN_OBJS)
 	@echo "Creating $(NAME)"
-	@ar rcs $(NAME) $(OBJS) $(LIBFT_OBJS)
+	@ar rcs $(NAME) $(MAIN_OBJS) $(LIBFT_OBJS)
 	@echo "$(NAME) has been created."
+
+# Compile the library with bonus files
+$(NAME)_bonus: $(ALL_OBJS)
+	@echo "Creating $(NAME) with bonus files"
+	@ar rcs $(NAME) $(ALL_OBJS) $(LIBFT_OBJS)
+	@echo "$(NAME) with bonus files has been created."
 
 # Compile libft without showing the full path
 $(LIBFT):
@@ -53,9 +65,18 @@ $(OBJ_DIR)/conversions/%.o: $(SRC_DIR)/conversions/%.c
 	printf "\033[1;37m%-20s\033[0m\t\033[1;37m%-40s\033[0m\t\033[1;30m[.o]\033[0m\t|\n" "➜ Output:" "$@"; \
 	echo "\033[1;37m─────────────────────────────────────────────────────────────────────────|\033[0m"
 
+$(OBJ_DIR)/bonus/%.o: $(SRC_DIR)/bonus/%.c
+	@mkdir -p $(@D)
+	@start_time=$$(date +%s); \
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@; \
+	end_time=$$(date +%s); \
+	printf "\033[1;30m%-20s\033[0m\t\033[1;37m%-40s\033[0m\t✔️\t|\n" "Compiling:" "$<"; \
+	printf "\033[1;37m%-20s\033[0m\t\033[1;37m%-40s\033[0m\t\033[1;30m[.o]\033[0m\t|\n" "➜ Output:" "$@"; \
+	echo "\033[1;37m─────────────────────────────────────────────────────────────────────────|\033[0m"
+
 # Clean object files
 clean:
-	rm -f $(OBJS)
+	rm -f $(MAIN_OBJS) $(BONUS_OBJS)
 	$(MAKE) -C $(LIBFT_DIR) clean
 	@echo "Object files have been removed."
 
@@ -75,4 +96,4 @@ main: all
 	./main
 
 # Phony targets
-.PHONY: all clean fclean re main
+.PHONY: all clean fclean re main bonus

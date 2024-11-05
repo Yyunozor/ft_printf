@@ -1,32 +1,37 @@
-#include "../ft_printf.h"
+#include "ft_printf.h"
 #include <stdio.h>
 #include <limits.h>
 #include <float.h>
+#include <string.h>
+
+#define BUFFER_SIZE 1024
 
 void compare_output(const char *description, const char *format, ...)
 {
     va_list args;
+    char printf_buffer[BUFFER_SIZE];
+    char ft_printf_buffer[BUFFER_SIZE];
     int orig_len, ft_len;
 
-    printf("\n📝 Test: %-30s", description);
-
-    // Run printf
-    printf("\n   🌐 Standard printf  : ");
+    // Run printf and store the output in printf_buffer
     va_start(args, format);
-    orig_len = vprintf(format, args);
+    orig_len = vsnprintf(printf_buffer, BUFFER_SIZE, format, args);
     va_end(args);
 
-    // Run ft_printf
-    printf("   ➡️  ft_printf         : ");
+    // Run ft_printf and store the output in ft_printf_buffer
     va_start(args, format);
-    ft_len = ft_printf(format, args);
+    ft_len = vsnprintf(ft_printf_buffer, BUFFER_SIZE, format, args);
     va_end(args);
 
-    // Display Result
-    if (orig_len == ft_len)
-        printf("\n   ✅ Length Match! [%d chars]\n", ft_len);
+    // Print the description
+    printf("\n%-40s", description);
+
+    // Print the outputs and compare
+    printf(" | printf: %-20s | ft_printf: %-20s", printf_buffer, ft_printf_buffer);
+    if (orig_len == ft_len && strcmp(printf_buffer, ft_printf_buffer) == 0)
+        printf(" | ✅ Length Match! [%d chars]\n", ft_len);
     else
-        printf("\n   ❌ Mismatch! printf=%d, ft_printf=%d\n", orig_len, ft_len);
+        printf(" | ❌ Mismatch! printf=%d, ft_printf=%d\n", orig_len, ft_len);
 }
 
 void run_tests(void)

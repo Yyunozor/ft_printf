@@ -1,30 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   x_ptr.c                                            :+:      :+:    :+:   */
+/*   x_bonus.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 23:11:37 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 16:29:55 by anpayot          ###   ########.fr       */
+/*   Created: 2024/11/05 16:40:44 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 16:41:55 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void x_ptr(t_printf *p)
+void	x_prefix(t_printf *p, const char *prefix)
 {
-	uintptr_t	ptr;
-	char		*hex;
+	p->len += write(1, prefix, ft_strlen(prefix));
+}
 
-	ptr = (uintptr_t)va_arg(p->ap, void *);
-	if (ptr == 0) // Check if the pointer is NULL
+void	x_number(t_printf *p, const char *str)
+{
+	p->len += write(1, str, ft_strlen(str));
+}
+
+void	x_padding(t_printf *p, int len, char pad_char)
+{
+	while (len < p->width)
 	{
-		p->len += write(1, "0x0", 3); // Output "0x0" for NULL pointers
-		return ;
+		p->len += write(1, &pad_char, 1);
+		len++;
 	}
-	hex = ft_utoa_base(ptr, "0123456789abcdef");
-	p->len += write(1, "0x", 2);
-	p->len += write(1, hex, ft_strlen(hex));
-	free(hex);
+}
+
+void	x_precision(t_printf *p, int num_len)
+{
+	while (num_len < p->precision)
+	{
+		p->len += write(1, "0", 1);
+		num_len++;
+	}
 }

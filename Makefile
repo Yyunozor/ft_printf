@@ -46,33 +46,33 @@ $(NAME)_bonus: $(ALL_OBJS)
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
-# Object file compilation rules
+# Object file compilation rules with enforced fixed-width for consistent alignment
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
 	@start_time=$$(date +%s); \
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@; \
 	end_time=$$(date +%s); \
-	printf "\033[1;30m%-20s\033[0m\t\033[1;37m%-40s\033[0m\t✔️\t|\n" "Compiling:" "$<"; \
-	printf "\033[1;37m%-20s\033[0m\t\033[1;37m%-40s\033[0m\t\033[1;30m[.o]\033[0m\t|\n" "➜ Output:" "$@"; \
-	echo "\033[1;37m─────────────────────────────────────────────────────────────────────────|\033[0m"
+	printf "\033[1;30m%-15s\033[0m \033[1;37m%-40s\033[0m \033[1;32m✔️\033[0m    |\n" "Compiling:" "$<"; \
+	printf "\033[1;37m%-15s\033[0m \033[1;37m%-40s\033[0m \033[1;30m[.o]   |\033[0m\n" "➜ Output:" "$@"; \
+	echo "\033[1;37m──────────────────────────────────────────────────────────────|\033[0m"
 
 $(OBJ_DIR)/conversions/%.o: $(SRC_DIR)/conversions/%.c
 	@mkdir -p $(@D)
 	@start_time=$$(date +%s); \
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@; \
 	end_time=$$(date +%s); \
-	printf "\033[1;30m%-20s\033[0m\t\033[1;37m%-40s\033[0m\t✔️\t|\n" "Compiling:" "$<"; \
-	printf "\033[1;37m%-20s\033[0m\t\033[1;37m%-40s\033[0m\t\033[1;30m[.o]\033[0m\t|\n" "➜ Output:" "$@"; \
-	echo "\033[1;37m─────────────────────────────────────────────────────────────────────────|\033[0m"
+	printf "\033[1;30m%-15s\033[0m \033[1;37m%-40s\033[0m \033[1;32m✔️\033[0m    |\n" "Compiling:" "$<"; \
+	printf "\033[1;37m%-15s\033[0m \033[1;37m%-40s\033[0m \033[1;30m[.o]   |\033[0m\n" "➜ Output:" "$@"; \
+	echo "\033[1;37m──────────────────────────────────────────────────────────────|\033[0m"
 
 $(OBJ_DIR)/bonus/%.o: $(SRC_DIR)/bonus/%.c
 	@mkdir -p $(@D)
 	@start_time=$$(date +%s); \
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@; \
 	end_time=$$(date +%s); \
-	printf "\033[1;30m%-20s\033[0m\t\033[1;37m%-40s\033[0m\t✔️\t|\n" "Compiling:" "$<"; \
-	printf "\033[1;37m%-20s\033[0m\t\033[1;37m%-40s\033[0m\t\033[1;30m[.o]\033[0m\t|\n" "➜ Output:" "$@"; \
-	echo "\033[1;37m─────────────────────────────────────────────────────────────────────────|\033[0m"
+	printf "\033[1;30m%-15s\033[0m \033[1;37m%-40s\033[0m \033[1;32m✔️\033[0m    |\n" "Compiling:" "$<"; \
+	printf "\033[1;37m%-15s\033[0m \033[1;37m%-40s\033[0m \033[1;30m[.o]   |\033[0m\n" "➜ Output:" "$@"; \
+	echo "\033[1;37m──────────────────────────────────────────────────────────────|\033[0m"
 
 # Clean object files
 clean:

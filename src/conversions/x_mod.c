@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 16:55:11 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 16:55:19 by anpayot          ###   ########.fr       */
+/*   Created: 2024/11/05 17:38:29 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 17:38:30 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void x_mod(t_printf *p)
 	}
 	else
 	{
-		x_padding(p, 1, p->flags.zero ? '0' : ' ');
+		if (p->flags.zero)
+			x_padding(p, 1, '0');
+		else
+			x_padding(p, 1, ' ');
 		p->len += write(1, "%", 1);
 	}
 }

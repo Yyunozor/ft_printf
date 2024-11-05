@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 17:04:20 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 17:04:23 by anpayot          ###   ########.fr       */
+/*   Created: 2024/11/05 17:48:22 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 17:48:23 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void x_uint(t_printf *p)
 	int len;
 
 	num = va_arg(p->ap, unsigned int);
-	str = ft_utoa_base(num, "0123456789");
+	str = ft_ulltoa_base(num, "0123456789");
 	len = ft_strlen(str);
 	if (p->precision >= 0 && p->precision > len)
 		len = p->precision;
@@ -31,7 +31,10 @@ void x_uint(t_printf *p)
 	}
 	else
 	{
-		x_padding(p, len, p->flags.zero ? '0' : ' ');
+		if (p->flags.zero)
+			x_padding(p, len, '0');
+		else
+			x_padding(p, len, ' ');
 		x_precision(p, ft_strlen(str));
 		x_number(p, str);
 	}

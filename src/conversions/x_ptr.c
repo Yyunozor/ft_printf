@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 16:56:00 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 16:56:20 by anpayot          ###   ########.fr       */
+/*   Created: 2024/11/05 17:48:37 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 17:48:38 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void x_ptr(t_printf *p)
 	int len;
 
 	ptr = (uintptr_t)va_arg(p->ap, void *);
-	hex = ft_utoa_base(ptr, "0123456789abcdef");
+	hex = ft_ulltoa_base(ptr, "0123456789abcdef");
 	len = ft_strlen(hex) + ft_strlen(prefix);
 	if (p->flags.minus)
 	{
@@ -30,7 +30,10 @@ void x_ptr(t_printf *p)
 	}
 	else
 	{
-		x_padding(p, len, p->flags.zero ? '0' : ' ');
+		if (p->flags.zero)
+			x_padding(p, len, '0');
+		else
+			x_padding(p, len, ' ');
 		x_prefix(p, prefix);
 		x_number(p, hex);
 	}

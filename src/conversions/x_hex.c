@@ -5,30 +5,39 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 17:03:58 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 17:04:04 by anpayot          ###   ########.fr       */
+/*   Created: 2024/11/05 17:47:57 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 17:48:00 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static const char *get_hex_prefix(char c, t_printf *p, unsigned long long num)
+static const char	*get_hex_prefix(char c, t_printf *p, unsigned long long num)
 {
-	return (p->flags.hash && num != 0) ? ((c == 'x') ? "0x" : "0X") : "";
+	if (p->flags.hash && num != 0)
+	{
+		if (c == 'x')
+			return ("0x");
+		else
+			return ("0X");
+	}
+	return ("");
 }
 
-static char *convert_to_hex_str(unsigned long long num, char c)
+static char	*convert_to_hex_str(unsigned long long num, char c)
 {
-	return (c == 'x') ? ft_utoa_base(num, "0123456789abcdef")
-					  : ft_utoa_base(num, "0123456789ABCDEF");
+	if (c == 'x')
+		return (ft_ulltoa_base(num, "0123456789abcdef"));
+	else
+		return (ft_ulltoa_base(num, "0123456789ABCDEF"));
 }
 
-void x_hex(t_printf *p, char c)
+void	x_hex(t_printf *p, char c)
 {
-	unsigned long long num;
-	const char *prefix;
-	char *hex_str;
-	int len;
+	unsigned long long	num;
+	const char			*prefix;
+	char				*hex_str;
+	int					len;
 
 	num = va_arg(p->ap, unsigned int);
 	prefix = get_hex_prefix(c, p, num);
@@ -45,7 +54,10 @@ void x_hex(t_printf *p, char c)
 	}
 	else
 	{
-		x_padding(p, len, p->flags.zero ? '0' : ' ');
+		if (p->flags.zero)
+			x_padding(p, len, '0');
+		else
+			x_padding(p, len, ' ');
 		x_prefix(p, prefix);
 		x_precision(p, ft_strlen(hex_str));
 		x_number(p, hex_str);

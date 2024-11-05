@@ -5,27 +5,33 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 15:53:20 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 15:53:20 by anpayot          ###   ########.ch       */
+/*   Created: 2024/11/05 17:40:52 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 17:42:35 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void parse_flags(t_printf *p, const char **format)
+static void	parse_flags(t_printf *p, const char **format)
 {
-	while (**format == '-' || **format == '0' || **format == '#' || **format == ' ' || **format == '+')
+	while (**format == '-' || **format == '0' || **format == '#'
+		|| **format == ' ' || **format == '+')
 	{
-		if (**format == '-') p->flags.minus = 1;
-		else if (**format == '0') p->flags.zero = 1;
-		else if (**format == '+') p->flags.plus = 1;
-		else if (**format == ' ') p->flags.space = 1;
-		else if (**format == '#') p->flags.hash = 1;
+		if (**format == '-')
+			p->flags.minus = 1;
+		else if (**format == '0')
+			p->flags.zero = 1;
+		else if (**format == '+')
+			p->flags.plus = 1;
+		else if (**format == ' ')
+			p->flags.space = 1;
+		else if (**format == '#')
+			p->flags.hash = 1;
 		(*format)++;
 	}
 }
 
-static void parse_width(t_printf *p, const char **format)
+static void	parse_width(t_printf *p, const char **format)
 {
 	p->width = 0;
 	while (**format >= '0' && **format <= '9')
@@ -35,7 +41,7 @@ static void parse_width(t_printf *p, const char **format)
 	}
 }
 
-static void parse_precision(t_printf *p, const char **format)
+static void	parse_precision(t_printf *p, const char **format)
 {
 	p->precision = -1;
 	if (**format == '.')
@@ -50,7 +56,7 @@ static void parse_precision(t_printf *p, const char **format)
 	}
 }
 
-void parse_format(t_printf *p, const char **format)
+void	parse_format(t_printf *p, const char **format)
 {
 	parse_flags(p, format);
 	parse_width(p, format);

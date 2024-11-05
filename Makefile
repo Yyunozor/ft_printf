@@ -1,34 +1,32 @@
 # Variables
-NAME        = libftprintf.a
-CC          = gcc
-CFLAGS      = -Wall -Wextra -Werror
-SRC_DIR     = src
-OBJ_DIR     = obj
-LIBFT_DIR   = libft
-LIBFT       = $(LIBFT_DIR)/libft.a
-INCLUDES    = -I. -I$(LIBFT_DIR)
-MAKE        = /Applications/Xcode.app/Contents/Developer/usr/bin/make  # Keep your MAKE variable
+NAME		= libftprintf.a
+CC			= gcc
+CFLAGS		= -Wall -Wextra -Werror
+SRC_DIR		= src
+OBJ_DIR		= obj
+LIBFT_DIR	= libft
+LIBFT		= $(LIBFT_DIR)/libft.a
+INCLUDES	= -I. -I$(LIBFT_DIR)
+MAKE		= /Applications/Xcode.app/Contents/Developer/usr/bin/make  # Keep your MAKE variable
 
 # Source files
-SRC_FILES   = $(wildcard $(SRC_DIR)/*.c)
-X_FILES  = $(wildcard $(SRC_DIR)/x_files/*.c)
-BONUS_FILES = $(wildcard $(SRC_DIR)/bonus/*.c)
-MAIN_SRCS   = $(SRC_FILES) $(X_FILES)
-ALL_SRCS    = $(MAIN_SRCS) $(BONUS_FILES)
+SRC_FILES	= $(wildcard $(SRC_DIR)/*.c)
+X_FILES		= $(wildcard $(SRC_DIR)/x_files/*.c)
+MAIN_SRCS	= $(SRC_FILES) $(X_FILES)
+ALL_SRCS	= $(MAIN_SRCS) $(BONUS_FILES)
 
 # Object files
-MAIN_OBJS   = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
-MAIN_OBJS  += $(patsubst $(SRC_DIR)/x_files/%.c,$(OBJ_DIR)/x_files/%.o,$(X_FILES))
-BONUS_OBJS  = $(patsubst $(SRC_DIR)/bonus/%.c,$(OBJ_DIR)/bonus/%.o,$(BONUS_FILES))
-ALL_OBJS    = $(MAIN_OBJS) $(BONUS_OBJS)
+MAIN_OBJS	= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
+MAIN_OBJS	+= $(patsubst $(SRC_DIR)/x_files/%.c,$(OBJ_DIR)/x_files/%.o,$(X_FILES))
+ALL_OBJS	= $(MAIN_OBJS) $(BONUS_OBJS)
 
 # Libft object files
-LIBFT_OBJS  = $(wildcard $(LIBFT_DIR)/*.o)
+LIBFT_OBJS	= $(wildcard $(LIBFT_DIR)/*.o)
 
 # Main rule
 all: $(LIBFT) $(NAME)
 
-bonus: $(LIBFT) $(NAME)_bonus
+bonus: all
 
 # Compile the main library
 $(NAME): $(MAIN_OBJS)
@@ -56,7 +54,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	printf "\033[1;37m%-15s\033[0m \033[1;37m%-40s\033[0m \033[1;30m[.o]   |\033[0m\n" "➜ Output:" "$@"; \
 	echo "\033[1;37m──────────────────────────────────────────────────────────────|\033[0m"
 
-$(OBJ_DIR)/x_files/%.o: $(SRC_DIR)/x_files/%.c
+$(OBJ_DIR)/conversions/%.o: $(SRC_DIR)/x_files/%.c
 	@mkdir -p $(@D)
 	@start_time=$$(date +%s); \
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@; \

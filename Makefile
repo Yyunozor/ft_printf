@@ -27,6 +27,11 @@ LIBFT_OBJS	= $(wildcard $(LIBFT_DIR)/*.o)
 all: $(LIBFT) $(NAME)
 
 bonus: all
+	@echo "Compiled directly from the all rule"
+	@echo "so... it was compiled since the beginning"
+	@echo "No need to recompile"
+	@echo "Just run the bonus tests"
+	@echo "et oui... et oui..."
 
 # Compile the main library
 $(NAME): $(MAIN_OBJS)
@@ -54,7 +59,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	printf "\033[1;37m%-15s\033[0m \033[1;37m%-40s\033[0m \033[1;30m[.o]   |\033[0m\n" "➜ Output:" "$@"; \
 	echo "\033[1;37m──────────────────────────────────────────────────────────────|\033[0m"
 
-$(OBJ_DIR)/conversions/%.o: $(SRC_DIR)/x_files/%.c
+$(OBJ_DIR)/x_files/%.o: $(SRC_DIR)/x_files/%.c
 	@mkdir -p $(@D)
 	@start_time=$$(date +%s); \
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@; \

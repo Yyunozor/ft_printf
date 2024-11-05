@@ -5,14 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 14:44:03 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 14:45:03 by anpayot          ###   ########.ch       */
+/*   Created: 2024/11/05 14:57:01 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 14:57:16 by anpayot          ###   ########.ch       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
+# include <float.h>
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdlib.h>

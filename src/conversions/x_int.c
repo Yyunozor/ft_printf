@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 16:30:08 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 16:30:34 by anpayot          ###   ########.fr       */
+/*   Created: 2024/11/05 17:04:32 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 17:04:35 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void x_int(t_printf *p)
 		prefix = " ";
 	str = ft_itoa_base(num, "0123456789");
 	len = ft_strlen(str) + ft_strlen(prefix);
+	if (p->precision >= 0 && p->precision > len)
+		len = p->precision + ft_strlen(prefix);
 	if (p->flags.minus)
 	{
 		x_prefix(p, prefix);

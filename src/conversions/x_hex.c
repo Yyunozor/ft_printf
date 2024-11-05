@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 16:40:15 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 16:40:15 by anpayot          ###   ########.fr       */
+/*   Created: 2024/11/05 17:03:58 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 17:04:04 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void x_hex(t_printf *p, char c)
 	prefix = get_hex_prefix(c, p, num);
 	hex_str = convert_to_hex_str(num, c);
 	len = ft_strlen(hex_str) + ft_strlen(prefix);
+	if (p->precision >= 0 && p->precision > len)
+		len = p->precision + ft_strlen(prefix);
 	if (p->flags.minus)
 	{
 		x_prefix(p, prefix);

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 17:40:52 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 17:42:35 by anpayot          ###   ########.fr       */
+/*   Created: 2024/11/05 18:09:37 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 18:09:38 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	parse_precision(t_printf *p, const char **format)
 	}
 }
 
-void	parse_format(t_printf *p, const char **format)
+void	ft_parse_format(t_printf *p, const char **format)
 {
 	parse_flags(p, format);
 	parse_width(p, format);

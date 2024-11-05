@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 17:04:32 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 17:04:35 by anpayot          ###   ########.fr       */
+/*   Created: 2024/11/05 17:19:33 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 17:30:03 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,43 @@ void x_int(t_printf *p)
 	char *str;
 	char *prefix = "";
 	int len;
+	int num_len;
 
 	num = va_arg(p->ap, int);
-	if (num >= 0 && p->flags.plus)
+	if (num < 0)
+	{
+		prefix = "-";
+		num = -num;
+	}
+	else if (num >= 0 && p->flags.plus)
 		prefix = "+";
 	else if (num >= 0 && p->flags.space)
 		prefix = " ";
 	str = ft_itoa_base(num, "0123456789");
-	len = ft_strlen(str) + ft_strlen(prefix);
-	if (p->precision >= 0 && p->precision > len)
+	num_len = ft_strlen(str);
+	len = num_len + ft_strlen(prefix);
+	if (p->precision >= 0 && p->precision > num_len)
 		len = p->precision + ft_strlen(prefix);
 	if (p->flags.minus)
 	{
 		x_prefix(p, prefix);
-		x_precision(p, ft_strlen(str));
+		x_precision(p, num_len);
 		x_number(p, str);
 		x_padding(p, len, ' ');
 	}
 	else
 	{
-		x_padding(p, len, p->flags.zero ? '0' : ' ');
-		x_prefix(p, prefix);
-		x_precision(p, ft_strlen(str));
+		if (p->flags.zero && p->precision < 0)
+		{
+			x_prefix(p, prefix);
+			x_padding(p, len, '0');
+		}
+		else
+		{
+			x_padding(p, len, ' ');
+			x_prefix(p, prefix);
+		}
+		x_precision(p, num_len);
 		x_number(p, str);
 	}
 	free(str);

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_conversions.c                                   :+:      :+:    :+:   */
+/*   ft_x.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 21:16:37 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/04 22:04:45 by anpayot          ###   ########.ch       */
+/*   Created: 2024/11/05 21:55:39 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 21:55:40 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_conversion(t_printf *p, char c)
+void	ft_x(t_printf *p, char c)
 {
 	if (c == 'c')
 		x_char(p);

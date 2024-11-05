@@ -11,14 +11,14 @@ MAKE        = /Applications/Xcode.app/Contents/Developer/usr/bin/make  # Keep yo
 
 # Source files
 SRC_FILES   = $(wildcard $(SRC_DIR)/*.c)
-CONV_FILES  = $(wildcard $(SRC_DIR)/conversions/*.c)
+X_FILES  = $(wildcard $(SRC_DIR)/x_files/*.c)
 BONUS_FILES = $(wildcard $(SRC_DIR)/bonus/*.c)
-MAIN_SRCS   = $(SRC_FILES) $(CONV_FILES)
+MAIN_SRCS   = $(SRC_FILES) $(X_FILES)
 ALL_SRCS    = $(MAIN_SRCS) $(BONUS_FILES)
 
 # Object files
 MAIN_OBJS   = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
-MAIN_OBJS  += $(patsubst $(SRC_DIR)/conversions/%.c,$(OBJ_DIR)/conversions/%.o,$(CONV_FILES))
+MAIN_OBJS  += $(patsubst $(SRC_DIR)/x_files/%.c,$(OBJ_DIR)/x_files/%.o,$(X_FILES))
 BONUS_OBJS  = $(patsubst $(SRC_DIR)/bonus/%.c,$(OBJ_DIR)/bonus/%.o,$(BONUS_FILES))
 ALL_OBJS    = $(MAIN_OBJS) $(BONUS_OBJS)
 
@@ -56,7 +56,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	printf "\033[1;37m%-15s\033[0m \033[1;37m%-40s\033[0m \033[1;30m[.o]   |\033[0m\n" "➜ Output:" "$@"; \
 	echo "\033[1;37m──────────────────────────────────────────────────────────────|\033[0m"
 
-$(OBJ_DIR)/conversions/%.o: $(SRC_DIR)/conversions/%.c
+$(OBJ_DIR)/x_files/%.o: $(SRC_DIR)/x_files/%.c
 	@mkdir -p $(@D)
 	@start_time=$$(date +%s); \
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@; \

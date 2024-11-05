@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 18:09:43 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 21:38:00 by anpayot          ###   ########.fr       */
+/*   Created: 2024/11/05 21:53:55 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 21:53:56 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int ft_printf(const char *format, ...)
 		{
 			ft_parse_format(&p, &format);
 			if (ft_strchr("cspdiuxX%", *format))
-				ft_conversion(&p, *format);
+				ft_x(&p, *format);
 			else
 				p.len += write(1, format, 1);
 		}

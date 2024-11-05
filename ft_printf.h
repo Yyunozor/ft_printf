@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 18:10:22 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 18:10:23 by anpayot          ###   ########.fr       */
+/*   Created: 2024/11/05 21:54:42 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/05 21:54:42 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	x_int(t_printf *p);
 void	x_uint(t_printf *p);
 void	x_hex(t_printf *p, char c);
 void	x_mod(t_printf *p);
-void	ft_conversion(t_printf *p, char specifier);
+void	ft_x(t_printf *p, char specifier);
 void	ft_parse_format(t_printf *p, const char **format);
 
 void	x_prefix(t_printf *p, const char *prefix);

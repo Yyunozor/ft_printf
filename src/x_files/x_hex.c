@@ -6,7 +6,7 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:47:57 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 17:48:00 by anpayot          ###   ########.fr       */
+/*   Updated: 2024/11/16 20:52:38 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ void	x_hex(t_printf *p, char c)
 	int					len;
 
 	num = va_arg(p->ap, unsigned int);
+
+	// Handle precision 0 with value 0
+	if (p->precision == 0 && num == 0)
+	{
+		x_padding(p, 0, ' ');
+		return;
+	}
 	prefix = get_hex_prefix(c, p, num);
 	hex_str = convert_to_hex_str(num, c);
 	len = ft_strlen(hex_str) + ft_strlen(prefix);

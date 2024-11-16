@@ -6,7 +6,7 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:48:22 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 17:48:23 by anpayot          ###   ########.fr       */
+/*   Updated: 2024/11/16 20:50:54 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ void x_uint(t_printf *p)
 	int len;
 
 	num = va_arg(p->ap, unsigned int);
+	if (p->precision == 0 && num == 0)
+	{
+		x_padding(p, 0, ' ');
+		return;
+	}
 	str = ft_ulltoa_base(num, "0123456789");
 	len = ft_strlen(str);
 	if (p->precision >= 0 && p->precision > len)

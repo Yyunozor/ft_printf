@@ -6,7 +6,7 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 21:45:03 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 21:46:34 by anpayot          ###   ########.fr       */
+/*   Updated: 2024/11/16 20:49:20 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ void	x_int(t_printf *p)
 
 	num = va_arg(p->ap, int);
 
+	// Handle precision 0 with value 0
+	if (p->precision == 0 && num == 0)
+	{
+		x_padding(p, 0, ' ');
+		return;
+	}
+
 	// Determine the prefix based on sign and flags
 	if (num < 0)
 	{
@@ -34,15 +41,13 @@ void	x_int(t_printf *p)
 		prefix = " ";
 
 	// Convert number to string
-	str = ft_ulltoa_base(num, "0123456789");
+str = ft_ulltoa_base(num, "0123456789");
 	num_len = ft_strlen(str);
 	len = num_len + ft_strlen(prefix);
 
-	// Adjust total length for precision if it's greater than num_len
 	if (p->precision > num_len)
 		len = p->precision + ft_strlen(prefix);
 
-	// Left alignment
 	if (p->flags.minus)
 	{
 		x_prefix(p, prefix);
@@ -52,19 +57,18 @@ void	x_int(t_printf *p)
 	}
 	else
 	{
+		// Handle zero padding correctly
 		if (p->flags.zero && p->precision < 0)
 		{
-			// Zero-padding without precision
 			x_prefix(p, prefix);
 			x_padding(p, len, '0');
 		}
 		else
 		{
-			// Space-padding with precision or without zero flag
 			x_padding(p, len, ' ');
 			x_prefix(p, prefix);
+			x_precision(p, num_len);
 		}
-		x_precision(p, num_len);
 		x_number(p, str);
 	}
 

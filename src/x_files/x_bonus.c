@@ -5,40 +5,65 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 21:44:25 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/05 22:12:12 by anpayot          ###   ########.fr       */
+/*   Created: 2024/11/05 17:48:37 by anpayot           #+#    #+#             */
+/*   Updated: 2024/11/17 03:49:39 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void x_prefix(t_printf *p, const char *prefix)
+static void	parse_flags(t_printf *p, const char **format)
 {
-	p->len += write(1, prefix, ft_strlen(prefix));
-}
-
-
-void x_number(t_printf *p, const char *str)
-{
-	p->len += write(1, str, ft_strlen(str));
-}
-
-
-void x_padding(t_printf *p, int len, char pad_char)
-{
-	int padding_len = p->width - len;  // Calculate the exact padding required
-	while (padding_len > 0)
+	while (ft_strchr("-0+ #", **format))
 	{
-		p->len += write(1, &pad_char, 1);
-		padding_len--;
+		if (**format == '-')
+			p->flags.minus = 1;
+		else if (**format == '0')
+			p->flags.zero = 1;
+		else if (**format == '+')
+			p->flags.plus = 1;
+		else if (**format == ' ')
+			p->flags.space = 1;
+		else if (**format == '#')
+			p->flags.hash = 1;
+		(*format)++;
+	}
+	if (p->flags.minus)
+		p->flags.zero = 0;
+	if (p->flags.plus)
+		p->flags.space = 0;
+}
+
+static void	parse_width(t_printf *p, const char **format)
+{
+	p->width = 0;
+	while (ft_isdigit(**format))
+	{
+		p->width = p->width * 10 + (**format - '0');
+		(*format)++;
 	}
 }
 
-void x_precision(t_printf *p, int num_len)
+static void	parse_precision(t_printf *p, const char **format)
 {
-	while (num_len < p->precision)
+	if (**format != '.')
 	{
-		p->len += write(1, "0", 1);
-		num_len++;
+		p->precision = -1;
+		return ;
 	}
+	(*format)++;
+	p->precision = 0;
+	while (ft_isdigit(**format))
+	{
+		p->precision = p->precision * 10 + (**format - '0');
+		(*format)++;
+	}
+}
+
+void	ft_parse_format(t_printf *p, const char **format)
+{
+	ft_bzero(&p->flags, sizeof(t_flags));
+	parse_flags(p, format);
+	parse_width(p, format);
+	parse_precision(p, format);
 }

@@ -6,18 +6,32 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:47:57 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/17 03:44:12 by anpayot          ###   ########.fr       */
+/*   Updated: 2024/11/17 19:40:39 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	set_hex_prefix(t_format_data *data, t_printf *p)
+static void	handle_zero_case(t_printf *p)
 {
-	if (p->flags.hash && data->num != 0)
-		data->prefix = data->prefix;
-	else
-		data->prefix = "";
+	int	padding_len;
+
+	padding_len = p->width - 1;
+	if (p->precision == 0)
+	{
+		while (p->width > 0)
+		{
+			p->len += write(1, " ", 1);
+			p->width--;
+		}
+		return ;
+	}
+	while (padding_len > 0)
+	{
+		p->len += write(1, " ", 1);
+		padding_len--;
+	}
+	p->len += write(1, "0", 1);
 }
 
 static void	init_hex_format(t_format_data *data, t_printf *p, char c)
@@ -36,7 +50,10 @@ static void	init_hex_format(t_format_data *data, t_printf *p, char c)
 		data->prefix = "0X";
 	}
 	data->str = ft_ulltoa_base(data->num, base);
-	set_hex_prefix(data, p);
+	if (p->flags.hash && data->num != 0)
+		data->prefix = data->prefix;
+	else
+		data->prefix = "";
 	data->num_len = ft_strlen(data->str);
 	data->len = data->num_len;
 	if (p->precision > data->num_len)
@@ -49,7 +66,11 @@ static void	print_hex_left(t_printf *p, t_format_data *data)
 	x_prefix(p, data->prefix);
 	x_precision(p, data->num_len);
 	x_number(p, data->str);
-	x_padding(p, data->len, ' ');
+	while (p->width > data->len)
+	{
+		p->len += write(1, " ", 1);
+		p->width--;
+	}
 }
 
 static void	print_hex_right(t_printf *p, t_format_data *data)
@@ -62,11 +83,20 @@ static void	print_hex_right(t_printf *p, t_format_data *data)
 	if (pad == '0')
 	{
 		x_prefix(p, data->prefix);
-		x_padding(p, data->len, '0');
+		while (p->width > data->len)
+		{
+			p->len += write(1, "0", 1);
+			p->width--;
+		}
+		x_precision(p, data->num_len);
 	}
 	else
 	{
-		x_padding(p, data->len, ' ');
+		while (p->width > data->len)
+		{
+			p->len += write(1, " ", 1);
+			p->width--;
+		}
 		x_prefix(p, data->prefix);
 		x_precision(p, data->num_len);
 	}
@@ -78,12 +108,14 @@ void	x_hex(t_printf *p, char c)
 	t_format_data	data;
 
 	init_hex_format(&data, p, c);
-	if (p->precision == 0 && data.num == 0)
+	if (data.num == 0 && p->precision == 0)
 	{
-		x_padding(p, p->width, ' ');
+		handle_zero_case(p);
 		free(data.str);
 		return ;
 	}
+	if (data.num == 0)
+		data.prefix = "";
 	if (p->flags.minus)
 		print_hex_left(p, &data);
 	else

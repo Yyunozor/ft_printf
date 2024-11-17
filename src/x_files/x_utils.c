@@ -6,7 +6,7 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:48:37 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/17 03:49:49 by anpayot          ###   ########.fr       */
+/*   Updated: 2024/11/17 19:41:43 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,30 @@ void	x_number(t_printf *p, const char *str)
 	p->len += write(1, str, ft_strlen(str));
 }
 
+static void	handle_left_padding(t_printf *p, int padding_len)
+{
+	int	i;
+
+	i = 0;
+	while (i < padding_len)
+	{
+		p->len += write(1, " ", 1);
+		i++;
+	}
+}
+
+static void	handle_right_padding(t_printf *p, int padding_len, char pad_char)
+{
+	int	i;
+
+	i = 0;
+	while (i < padding_len)
+	{
+		p->len += write(1, &pad_char, 1);
+		i++;
+	}
+}
+
 void	x_padding(t_printf *p, int content_len, char pad_char)
 {
 	int	padding_len;
@@ -30,35 +54,25 @@ void	x_padding(t_printf *p, int content_len, char pad_char)
 	if (padding_len <= 0)
 		return ;
 	if (p->flags.minus)
-	{
-		while (padding_len > 0)
-		{
-			p->len += write(1, " ", 1);
-			padding_len--;
-		}
-	}
+		handle_left_padding(p, padding_len);
 	else
-	{
-		if (pad_char == '0' && p->precision >= 0)
-			pad_char = ' ';
-		while (padding_len > 0)
-		{
-			p->len += write(1, &pad_char, 1);
-			padding_len--;
-		}
-	}
+		handle_right_padding(p, padding_len, pad_char);
 }
 
 void	x_precision(t_printf *p, int num_len)
 {
 	int	precision_padding;
+	int	i;
 
 	if (p->precision < 0)
 		return ;
 	precision_padding = p->precision - num_len;
-	while (precision_padding > 0)
+	if (precision_padding <= 0)
+		return ;
+	i = 0;
+	while (i < precision_padding)
 	{
 		p->len += write(1, "0", 1);
-		precision_padding--;
+		i++;
 	}
 }

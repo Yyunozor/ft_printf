@@ -6,17 +6,43 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:48:37 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/17 03:49:19 by anpayot          ###   ########.fr       */
+/*   Updated: 2024/11/17 19:42:03 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
+static void	handle_zero_case(t_printf *p)
+{
+	int	padding_len;
+
+	padding_len = p->width - 1;
+	if (p->precision == 0)
+	{
+		while (p->width > 0)
+		{
+			p->len += write(1, " ", 1);
+			p->width--;
+		}
+		return ;
+	}
+	while (padding_len > 0)
+	{
+		p->len += write(1, " ", 1);
+		padding_len--;
+	}
+	p->len += write(1, "0", 1);
+}
+
 static void	print_uint_left(t_printf *p, char *str, int total_len, int num_len)
 {
 	x_precision(p, num_len);
 	x_number(p, str);
-	x_padding(p, total_len, ' ');
+	while (p->width > total_len)
+	{
+		p->len += write(1, " ", 1);
+		p->width--;
+	}
 }
 
 static void	print_uint_right(t_printf *p, char *str, int total_len, int num_len)
@@ -27,10 +53,21 @@ static void	print_uint_right(t_printf *p, char *str, int total_len, int num_len)
 	if (p->flags.zero && p->precision < 0)
 		pad = '0';
 	if (pad == '0')
-		x_padding(p, total_len, '0');
+	{
+		while (p->width > total_len)
+		{
+			p->len += write(1, "0", 1);
+			p->width--;
+		}
+		x_precision(p, num_len);
+	}
 	else
 	{
-		x_padding(p, total_len, ' ');
+		while (p->width > total_len)
+		{
+			p->len += write(1, " ", 1);
+			p->width--;
+		}
 		x_precision(p, num_len);
 	}
 	x_number(p, str);
@@ -44,9 +81,9 @@ void	x_uint(t_printf *p)
 	int				total_len;
 
 	num = va_arg(p->ap, unsigned int);
-	if (p->precision == 0 && num == 0)
+	if (num == 0 && p->precision == 0)
 	{
-		x_padding(p, p->width, ' ');
+		handle_zero_case(p);
 		return ;
 	}
 	str = ft_ulltoa_base(num, "0123456789");

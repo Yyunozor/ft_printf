@@ -6,7 +6,7 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:48:37 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/17 19:41:43 by anpayot          ###   ########.fr       */
+/*   Updated: 2024/11/17 19:52:35 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,17 @@ static void	handle_left_padding(t_printf *p, int padding_len)
 	}
 }
 
-static void	handle_right_padding(t_printf *p, int padding_len, char pad_char)
+static void	handle_right_padding(t_printf *p, int padding_len)
 {
 	int	i;
 
 	i = 0;
 	while (i < padding_len)
 	{
-		p->len += write(1, &pad_char, 1);
+		if (p->flags.zero && p->precision < 0)
+			p->len += write(1, "0", 1);
+		else
+			p->len += write(1, " ", 1);
 		i++;
 	}
 }
@@ -49,14 +52,22 @@ static void	handle_right_padding(t_printf *p, int padding_len, char pad_char)
 void	x_padding(t_printf *p, int content_len, char pad_char)
 {
 	int	padding_len;
+	int	orig_width;
 
-	padding_len = p->width - content_len;
+	(void)pad_char;
+	orig_width = p->width;
+	padding_len = orig_width - content_len;
 	if (padding_len <= 0)
 		return ;
-	if (p->flags.minus)
-		handle_left_padding(p, padding_len);
+	if (!p->flags.minus)
+	{
+		if (p->flags.zero && p->precision < 0)
+			handle_right_padding(p, padding_len);
+		else
+			handle_left_padding(p, padding_len);
+	}
 	else
-		handle_right_padding(p, padding_len, pad_char);
+		handle_left_padding(p, padding_len);
 }
 
 void	x_precision(t_printf *p, int num_len)

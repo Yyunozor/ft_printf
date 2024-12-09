@@ -6,19 +6,14 @@
 /*   By: anpayot <anpayot@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:48:37 by anpayot           #+#    #+#             */
-/*   Updated: 2024/11/17 19:29:59 by anpayot          ###   ########.fr       */
+/*   Updated: 2024/12/09 19:30:16 by anpayot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	x_mod(t_printf *p)
+void x_mod(t_printf *p)
 {
-	char	pad;
-
-	pad = ' ';
-	if (p->flags.zero)
-		pad = '0';
 	if (p->flags.minus)
 	{
 		p->len += write(1, "%", 1);
@@ -26,7 +21,8 @@ void	x_mod(t_printf *p)
 	}
 	else
 	{
-		x_padding(p, 1, pad);
+		char pad_char = p->flags.zero ? '0' : ' ';
+		x_padding(p, 1, pad_char);
 		p->len += write(1, "%", 1);
 	}
 }
